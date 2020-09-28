@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp"
+    android:background="?android:selectableItemBackground">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pro_pic_message"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="5dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/id_online"
+        android:layout_width="15dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="-10dp"
+        android:layout_toEndOf="@id/pro_pic_message"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="3dp" />
+
+    <TextView
+        android:id="@+id/name_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@id/id_online"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name_message"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/id_online"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#8A8A8A"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@id/pro_pic_message"
+        android:layout_marginTop="3dp"
+        android:layout_toEndOf="@id/pro_pic_message"
+        android:background="@color/off_line" />
+
+</RelativeLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <com.jgabrielfreitas.core.BlurImageView
+        android:id="@+id/back_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ba" />
+
+    <TextView
+        android:id="@+id/liked_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="liked"
+        android:fontFamily="monospace"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Email"
+        android:layout_below="@id/liked_text"
+        android:inputType="textWebEmailAddress"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        app:met_errorColor="#ff0000"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAnimating="true"
+        app:met_floatingLabelText="Email"
+        app:met_floatingLabelTextColor="@color/colorPrimaryDark"
+        app:met_floatingLabelTextSize="12dp"
+        app:met_primaryColor="@color/colorPrimaryDark"
+        app:met_textColor="#FFFFFF"
+        app:met_textColorHint="@color/colorPrimaryDark" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Password"
+        android:layout_below="@id/Email"
+        android:inputType="textPassword"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        app:met_errorColor="#ff0000"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAnimating="true"
+        app:met_floatingLabelText="Password"
+        app:met_floatingLabelTextColor="@color/colorPrimaryDark"
+        app:met_floatingLabelTextSize="12dp"
+        app:met_primaryColor="@color/colorPrimaryDark"
+        app:met_textColor="#FFFFFF"
+        app:met_textColorHint="@color/colorPrimaryDark" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/Password"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/login_btn_background"
+        android:text="Login"
+        android:onClick="letsGo"
+        android:id="@+id/logbtn"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/log_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logbtn"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="More sign in options"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/fill_vertical"
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/log_options"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/numbtn"
+        android:layout_width="200dp"
+        android:layout_height="42dp"
+        android:layout_below="@id/log_options"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@id/fill_vertical"
+        android:background="@drawable/coners"
+        android:drawableLeft="@drawable/icphone"
+        android:elevation="20dp"
+        android:onClick="openPhoneLog"
+        android:fontFamily="monospace"
+        android:text="Phone number"
+        android:textAllCaps="false"
+        android:textColor="#4E4C4C"
+        android:textSize="15sp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/log_options"
+        android:layout_toEndOf="@id/fill_vertical" />
+
+    <TextView
+        android:id="@+id/create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="Create account"
+        android:onClick="openCreateAccount"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+</RelativeLayout>

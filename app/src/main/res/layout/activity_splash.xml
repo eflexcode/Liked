@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashActivity">
+    <com.jgabrielfreitas.core.BlurImageView
+        android:id="@+id/back_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ba5" />
+
+    <TextView
+        android:id="@+id/liked_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="liked"
+        android:fontFamily="monospace"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="50sp"
+        android:textStyle="normal" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/image_loading"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/liked_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="15dp"
+        app:indicatorColor="@color/colorPrimaryDark"
+        app:indicatorName="LineSpinFadeLoaderIndicator" />
+
+
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="#000000"
+        android:text="Continue with"
+        android:fontFamily="monospace"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_margin="10sp"
+        android:text="camera"
+        android:id="@+id/camera"
+        android:fontFamily="monospace"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:background="@drawable/login_btn_background" />
+
+    <Button
+        android:layout_width="250dp"
+        android:layout_margin="10dp"
+        android:fontFamily="monospace"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/gallery"
+        android:text="gallery"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:background="@drawable/login_btn_background" />
+    <View
+        android:layout_width="350dp"
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent" />
+</LinearLayout>

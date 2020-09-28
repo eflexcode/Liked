@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "620631640156",
+    "firebase_url": "https://liked-a0f31.firebaseio.com",
+    "project_id": "liked-a0f31",
+    "storage_bucket": "liked-a0f31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620631640156:android:00e34354f154898dabfe99",
+        "android_client_info": {
+          "package_name": "com.eflexsoft.liked"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620631640156-24k3l7lbmj4dbk13a9f4fvv6hcu8a0uj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD08wuOtEWgUp0BLAl7BkHVSKh9P7A_fOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620631640156-24k3l7lbmj4dbk13a9f4fvv6hcu8a0uj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

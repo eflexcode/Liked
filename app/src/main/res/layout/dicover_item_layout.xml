@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="10sp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="12dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/pro_pic_other_user"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/bottom_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/name_back" />
+
+        <ImageView
+            android:id="@+id/heart_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.9"
+            android:src="@drawable/heart2"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/imageIsLoading"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/bottom_image"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:maxWidth="300dp"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/bottom_image"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/name"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/address"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:maxLines="5"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="7dp"
+            android:fontFamily="monospace"
+            android:gravity="end"
+            android:text="Tap twice to start dating"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/heart_image_Count"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/heart"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

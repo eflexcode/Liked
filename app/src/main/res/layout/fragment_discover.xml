@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.DiscoverFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/discover_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        style=" @style/SpinKitView.Small.DoubleBounce"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
+        android:id="@+id/imageIsLoading"
+        app:SpinKit_Color="#C996E3"
+        app:SpinKit_Style="DoubleBounce" />
+
+    <!--    <androidx.cardview.widget.CardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_margin="20dp"-->
+    <!--        app:cardCornerRadius="12dp">-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:scaleType="centerCrop"-->
+    <!--            android:src="@drawable/project_image_4" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/bottom_image"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="200dp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:src="@drawable/name_back" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/name"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignTop="@id/bottom_image"-->
+    <!--            android:layout_marginStart="5dp"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:maxWidth="300dp"-->
+    <!--            android:singleLine="true"-->
+    <!--            android:text="Elizabeth olsen,"-->
+    <!--            android:textColor="#fff"-->
+    <!--            android:textSize="25sp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/age"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignTop="@id/bottom_image"-->
+    <!--            android:layout_marginStart="5dp"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:layout_toEndOf="@id/name"-->
+    <!--            android:maxWidth="200dp"-->
+    <!--            android:singleLine="true"-->
+    <!--            android:text="19 "-->
+    <!--            android:textColor="#fff"-->
+    <!--            android:textSize="25sp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <com.like.LikeButton-->
+    <!--            android:id="@+id/star_button"-->
+    <!--            android:layout_width="23dp"-->
+    <!--            android:layout_height="23dp"-->
+    <!--            android:layout_below="@id/name"-->
+    <!--            android:layout_marginStart="5dp"-->
+    <!--            android:layout_marginTop="3dp"-->
+    <!--            app:icon_size="20dp"-->
+    <!--            app:icon_type="Star" />-->
+
+    <!--        <TextSwitcher-->
+    <!--            android:id="@+id/switcher"-->
+    <!--            style="@style/TextAppearance.AppCompat.Widget.Switch"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/name"-->
+    <!--            android:layout_marginStart="5dp"-->
+    <!--            android:layout_marginTop="5dp"-->
+    <!--            android:layout_toEndOf="@id/star_button"-->
+    <!--            android:tooltipText="12" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/about"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_below="@id/star_button"-->
+    <!--            android:layout_marginStart="5dp"-->
+    <!--            android:layout_marginTop="3dp"-->
+    <!--            android:maxLines="5"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            android:text="Hmm. We’re having trouble finding that site.We can’t connect to the server at web.facebook.com.If that address is correct, here are three other things you can try:Try again later.Check your network connection.If you are connected but behind a firewall, check that Firefox has permission to access the Web. "-->
+    <!--            android:textColor="#fff"-->
+    <!--            android:textSize="14sp" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/info"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:gravity="end"-->
+    <!--            android:layout_margin="7dp"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:text="Tap center twice to start dating"-->
+    <!--            android:textColor="#fff"-->
+    <!--            android:textSize="12sp" />-->
+
+    <!--    </RelativeLayout>-->
+    <!--    </androidx.cardview.widget.CardView>-->
+</RelativeLayout>
