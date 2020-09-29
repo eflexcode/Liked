@@ -27,6 +27,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.eflexsoft.liked.R;
 import com.eflexsoft.liked.adapter.DiscoverAdapter;
+import com.eflexsoft.liked.model.MessageList;
 import com.eflexsoft.liked.model.User;
 import com.eflexsoft.liked.viewholder.DiscoverUserViewHolder;
 import com.eflexsoft.liked.viewmodel.DiscoverViewModel;
@@ -65,6 +66,31 @@ public class DiscoverFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
+
+        Query chatQuery = FirebaseDatabase.getInstance().getReference("ChatId").child(FirebaseAuth.getInstance().getUid());
+
+        List<MessageList> messageLists = new ArrayList<>();
+
+        chatQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messageLists.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    MessageList messageList = dataSnapshot.getValue(MessageList.class);
+                    messageLists.add(messageList);
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         recyclerView = view.findViewById(R.id.discover_recycler);
         bar = view.findViewById(R.id.imageIsLoading);
@@ -106,19 +132,45 @@ public class DiscoverFragment extends Fragment {
         viewModel.observerLoadFirst().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                adapter.addUserFistLoad(users);
+
+                List<User> userList = new ArrayList<>(users);
+
+                for (User user : users){
+                    for (MessageList messageList : messageLists){
+                        if (user.getId().equals(messageList.getId())){
+                            userList.remove(user);
+
+
+                        }
+                    }
+                }
+                adapter.addUserFistLoad(userList);
                 bar.setVisibility(View.GONE);
                 userArrayList.addAll(users);
                 recyclerView.setVisibility(View.VISIBLE);
-                initialPageSize = users.size();
+                initialPageSize = userList.size();
+
             }
         });
 
         viewModel.observerLoadNext().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                adapter.addMoreUserLoad(users);
-                userArrayList.addAll(users);
+
+                List<User> userList = new ArrayList<>(users);
+
+                for (User user : users){
+                    for (MessageList messageList : messageLists){
+                        if (user.getId().equals(messageList.getId())){
+                            userList.remove(user);
+
+                        }
+                    }
+                }
+
+
+                adapter.addMoreUserLoad(userList);
+                userArrayList.addAll(userList);
 //                Toast.makeText(getContext(), " scroll down or ignore", Toast.LENGTH_SHORT).show();
             }
         });
@@ -132,7 +184,7 @@ public class DiscoverFragment extends Fragment {
                     User user = userArrayList.get(userArrayList.size() - 1);
 //                    adapter.addMoreUserLoad(user.getId(),myGender);
                     viewModel.doLoadNext(user.getId());
-                    Toast.makeText(getContext(), "loading next oage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "loading next page", Toast.LENGTH_SHORT).show();
 //                    viewModel.isPageAtLastMutableLiveData.setValue(true);
 
                 } else {

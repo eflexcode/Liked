@@ -83,21 +83,27 @@ public class MessageFragment extends Fragment {
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        viewHolder.name.setText(user.getName());
-                        Glide.with(getActivity()).load(user.getProfilePictureUrl())
-                                .apply(requestOptions)
-                                .into(viewHolder.proPic);
 
                         try {
-                            if (user.getIsOnline().equals("yes")) {
-                                viewHolder.isOnline.setImageResource(R.color.on_line);
-                            } else {
-                                viewHolder.isOnline.setImageResource(R.color.off_line);
+                            User user = snapshot.getValue(User.class);
+                            viewHolder.name.setText(user.getName());
+                            Glide.with(getActivity()).load(user.getProfilePictureUrl())
+                                    .apply(requestOptions)
+                                    .into(viewHolder.proPic);
+
+                            try {
+                                if (user.getIsOnline().equals("yes")) {
+                                    viewHolder.isOnline.setImageResource(R.color.on_line);
+                                } else {
+                                    viewHolder.isOnline.setImageResource(R.color.off_line);
+                                }
+                            } catch (NullPointerException e) {
+
                             }
-                        }catch (NullPointerException e){
+                        } catch (Exception e) {
 
                         }
+
 
                     }
 
@@ -113,7 +119,7 @@ public class MessageFragment extends Fragment {
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
 
                 progressBar.setVisibility(View.GONE);
-                switch (state){
+                switch (state) {
 
                 }
 
@@ -128,7 +134,6 @@ public class MessageFragment extends Fragment {
             }
 
         };
-
 
 
         recyclerView.setAdapter(adapter);

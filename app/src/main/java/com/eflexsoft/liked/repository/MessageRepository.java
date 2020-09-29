@@ -55,8 +55,13 @@ public class MessageRepository {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                User user = snapshot.getValue(User.class);
-                userMutableLiveData.setValue(user);
+                try {
+                    User user = snapshot.getValue(User.class);
+                    userMutableLiveData.setValue(user);
+                } catch (Exception e) {
+
+                }
+
 
             }
 
@@ -215,7 +220,7 @@ public class MessageRepository {
         });
     }
 
-    public void sendMessage(String receiver, String senderId, String message,String chatId) {
+    public void sendMessage(String receiver, String senderId, String message, String chatId) {
 
 //        String theChatId;
 //
@@ -328,7 +333,7 @@ public class MessageRepository {
 
     }
 
-    public void updateIsSeen(String chatId){
+    public void updateIsSeen(String chatId) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -337,9 +342,9 @@ public class MessageRepository {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
-                    if (chat.getReceiverId().equals(firebaseAuth.getUid())){
+                    if (chat.getReceiverId().equals(firebaseAuth.getUid())) {
 
                         Map<String, Object> map = new HashMap<>();
                         map.put("isSeen", true);

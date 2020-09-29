@@ -47,9 +47,9 @@ public class DiscoverRepository {
 
     public void doFirstLoad() {
 
-        Query chatQuery = FirebaseDatabase.getInstance().getReference("ChatId").child(FirebaseAuth.getInstance().getUid());
-
         List<MessageList> messageLists = new ArrayList<>();
+
+        Query chatQuery = FirebaseDatabase.getInstance().getReference("ChatId").child(FirebaseAuth.getInstance().getUid());
 
         chatQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -70,6 +70,7 @@ public class DiscoverRepository {
 
             }
         });
+
 
         Query query = FirebaseDatabase.getInstance().getReference("Users").limitToFirst(20);
 
@@ -94,21 +95,15 @@ public class DiscoverRepository {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 userList.clear();
+                                userSet.clear();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
                                     try {
                                         User user = dataSnapshot.getValue(User.class);
                                         if (!user.getGender().equals(fuser.getGender())) {
-                                            if (messageLists.size() > 0) {
-                                                for (MessageList messageList : messageLists) {
-                                                    if (!messageList.getId().equals(user.getId())) {
-                                                        userSet.add(user);
 
-                                                    }
-                                                }
-                                            } else {
-                                                Toast.makeText(context, "still loading...", Toast.LENGTH_SHORT).show();
-                                            }
+                                            userSet.add(user);
+
                                         }
 
 
@@ -196,7 +191,7 @@ public class DiscoverRepository {
                                 if (!user.getGender().equals(fuser.getGender())) {
                                     if (messageLists.size() > 0) {
                                         for (MessageList messageList : messageLists) {
-                                            if (!messageList.getId().equals(user.getId())) {
+                                            if (messageList.getId().equals(user.getId())) {
                                                 userSet.add(user);
 
                                             }
