@@ -8,12 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.eflexsoft.liked.MainActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
@@ -60,10 +64,58 @@ public class LoginRepository {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
-                    booleanMutableLiveData.setValue(false);
+                    boolean isUserNew = task.getResult().getAdditionalUserInfo().isNewUser();
+
+                    if (isUserNew) {
+
+                        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(context);
+
+                        String id = firebaseAuth.getUid();
+                        String name = googleSignInAccount.getDisplayName();
+                        String email = googleSignInAccount.getEmail();
+                        String imageUrl = googleSignInAccount.getPhotoUrl().toString();
+                        String gender = "Male";
+                        String address = "not stated";
+                        String age = "no age entered";
+                        String about = "love living";
+
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("id", firebaseAuth.getCurrentUser().getUid());
+                        map.put("name", name);
+                        map.put("address", address);
+                        map.put("gender", gender);
+                        map.put("age", age);
+                        map.put("about", about);
+                        map.put("isOnline", "no");
+                        map.put("email", email);
+                        map.put("profilePictureUrl", imageUrl);
+
+                        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+                        databaseReference.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    context.startActivity(intent);
+                                    booleanMutableLiveData.setValue(false);
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                booleanMutableLiveData.setValue(false);
+                            }
+                        });
+
+                    } else {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                        booleanMutableLiveData.setValue(false);
+                    }
+
 
                 }
             }

@@ -9,28 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eflexsoft.liked.R;
+import com.eflexsoft.liked.databinding.DicoverItemLayoutBinding;
 
 public class DiscoverUserViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView proPic;
-    public TextView name;
-    public TextView age;
-    public TextView about;
-    public TextView address;
-    public ProgressBar progressBar;
-    public ImageView heart;
-    public ImageView heart_count;
+    public DicoverItemLayoutBinding binding;
 
-    public DiscoverUserViewHolder(@NonNull View itemView) {
-        super(itemView);
+    public DiscoverUserViewHolder(@NonNull DicoverItemLayoutBinding binding) {
+        super(binding.getRoot());
 
-        proPic = itemView.findViewById(R.id.pro_pic_other_user);
-        name = itemView.findViewById(R.id.name);
-        age = itemView.findViewById(R.id.age);
-        about = itemView.findViewById(R.id.about);
-        address = itemView.findViewById(R.id.address);
-        progressBar = itemView.findViewById(R.id.imageIsLoading);
-        heart = itemView.findViewById(R.id.heart_image);
-        heart_count = itemView.findViewById(R.id.heart_image_Count);
+        this.binding = binding;
+
     }
 }

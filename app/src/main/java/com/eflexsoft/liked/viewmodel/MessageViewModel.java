@@ -48,12 +48,12 @@ public class MessageViewModel extends AndroidViewModel {
     public void sendMessage(String receiver, String senderId, String message,String chatId) {
         repository.sendMessage(receiver, senderId, message,chatId);
     }
-    public void sendImageCamera(String receiver, String senderId, byte[] bytes) {
-        repository.sendImageCamera(receiver, senderId, bytes);
+    public void sendImageCamera(String receiver, String senderId, byte[] bytes, String chatId) {
+        repository.sendImageCamera(receiver, senderId, bytes,chatId);
     }
 
-    public void sendImageGallery(String receiver, String senderId, Uri uri) {
-        repository.sendImageGallery(receiver, senderId, uri);
+    public void sendImageGallery(String receiver, String senderId, Uri uri, String chatId) {
+        repository.sendImageGallery(receiver, senderId, uri,chatId);
     }
     public void getChat(String chatId, String receiverId){
         repository.getChat(chatId,receiverId);

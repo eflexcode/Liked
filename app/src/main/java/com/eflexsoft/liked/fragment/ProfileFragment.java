@@ -55,7 +55,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class ProfileFragment extends Fragment {
 
     AppBarLayout appBarLayout;
@@ -136,12 +135,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditProfileActivity.class);
-                intent.putExtra("name",name.getText().toString());
-                intent.putExtra("age",age.getText().toString());
-                intent.putExtra("address",address.getText().toString());
-                intent.putExtra("aboutMe",about.getText().toString());
-                intent.putExtra("gender",gender.getText().toString());
-                startActivity(intent, ActivityOptions.makeCustomAnimation(getContext(),android.R.anim.slide_in_left, android.R.anim.slide_out_right).toBundle());
+                intent.putExtra("name", name.getText().toString());
+                intent.putExtra("age", age.getText().toString());
+                intent.putExtra("address", address.getText().toString());
+                intent.putExtra("aboutMe", about.getText().toString());
+                intent.putExtra("gender", gender.getText().toString());
+                startActivity(intent, ActivityOptions.makeCustomAnimation(getContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right).toBundle());
 
             }
         });
@@ -245,9 +244,9 @@ public class ProfileFragment extends Fragment {
 
                         try {
                             if (user.getIsOnline().equals("yes")) {
-                                aSwitch.setText("true");
+                                aSwitch.setText("Online");
                             } else {
-                                aSwitch.setText("false");
+                                aSwitch.setText("Offline");
                             }
                         } catch (NullPointerException e) {
 
@@ -273,8 +272,6 @@ public class ProfileFragment extends Fragment {
         });
         return view;
     }
-
-
 
 
     @Override
@@ -328,13 +325,13 @@ public class ProfileFragment extends Fragment {
     private void doShareUId() {
 
         String subject = "send my liked user id";
-        String text = "hi i'm " + nameId + " this is my liked ID please search and send a hi message\n\n"+FirebaseAuth.getInstance().getUid();
+        String text = "hi i'm " + nameId + " this is my liked ID please search and send a hi message\n\n" + FirebaseAuth.getInstance().getUid();
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT,text);
-        startActivity(Intent.createChooser(intent,"share your id with :"));
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        startActivity(Intent.createChooser(intent, "share your id with :"));
 
     }
 }

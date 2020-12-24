@@ -81,7 +81,7 @@ public class MessageRepository {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    public void sendImageCamera(String receiver, String senderId, byte[] bytes) {
+    public void sendImageCamera(String receiver, String senderId, byte[] bytes, String chatId) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = firebaseStorage.getReference("messageImages");
 
@@ -102,7 +102,7 @@ public class MessageRepository {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    String chatId = receiver + senderId;
+//                    String chatId = receiver + senderId;
 
                     String downloadUri = task.getResult().toString();
                     DatabaseReference chatReference = FirebaseDatabase.getInstance()
@@ -152,7 +152,7 @@ public class MessageRepository {
 
     }
 
-    public void sendImageGallery(String receiver, String senderId, Uri uri) {
+    public void sendImageGallery(String receiver, String senderId, Uri uri, String chatId) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = firebaseStorage.getReference("messageImages");
 
@@ -171,7 +171,7 @@ public class MessageRepository {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    String chatId = receiver + senderId;
+//                    String chatId = receiver + senderId;
 
                     String downloadUri = task.getResult().toString();
                     DatabaseReference chatReference = FirebaseDatabase.getInstance()
@@ -256,7 +256,7 @@ public class MessageRepository {
         chatIdYouReference.setValue(mapChatYou);
 
         Calendar calendar = Calendar.getInstance();
-        String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
 
         Map<String, Object> map = new HashMap<>();
         map.put("receiverId", receiver);
@@ -319,10 +319,11 @@ public class MessageRepository {
 //                    if (message.getSenderId().equals(firebaseAuth.getCurrentUser().getUid()) && message.getReceiverId().equals(receiverId)
 //                            || message.getSenderId().equals(receiverId) && message.getReceiverId().equals(firebaseAuth.getCurrentUser().getUid())) {
                     chatList.add(message);
-                    chatMutableLiveData.setValue(chatList);
+
 //                    }
 
                 }
+                chatMutableLiveData.setValue(chatList);
             }
 
             @Override

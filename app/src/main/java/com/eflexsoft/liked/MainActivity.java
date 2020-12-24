@@ -3,7 +3,11 @@ package com.eflexsoft.liked;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.eflexsoft.liked.databinding.ActivityMainBinding;
 import com.eflexsoft.liked.fragment.DiscoverFragment;
 import com.eflexsoft.liked.fragment.MessageFragment;
 import com.eflexsoft.liked.fragment.ProfileFragment;
@@ -27,22 +32,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
 
-
-    FrameLayout frameLayout;
-    Fragment fragment;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
-        frameLayout = findViewById(R.id.frag_frame);
-        bottomNavigationView = findViewById(R.id.bnv);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelected);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -50,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()){
-                    startActivity(new Intent(MainActivity.this,EditProfileActivity.class));
+                if (!snapshot.exists()) {
+                    startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
                     finish();
                 }
             }
@@ -62,47 +61,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frag_frame, new DiscoverFragment()).commit();
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.frag_frame, new DiscoverFragment()).commit();
+//
+//        }
 
-        }
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
+        NavigationUI.setupWithNavController(binding.bnv, navController);
 
     }
 
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
     }
-
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelected = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.discover:
-
-                    fragment = new DiscoverFragment();
-
-                    break;
-                case R.id.search:
-                    fragment = new SearchFragment();
-
-                    break;
-                case R.id.message:
-
-                    fragment = new MessageFragment();
-                    break;
-                case R.id.profile:
-
-                    fragment = new ProfileFragment();
-
-                    break;
-
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.frag_frame, fragment).commit();
-
-            return true;
-        }
-    };
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {

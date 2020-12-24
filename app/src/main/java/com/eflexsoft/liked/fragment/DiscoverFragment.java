@@ -62,6 +62,7 @@ public class DiscoverFragment extends Fragment {
     List<User> userArrayList = new ArrayList<>();
     String myGender;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,7 +105,6 @@ public class DiscoverFragment extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
 
-        adapter = new DiscoverAdapter(getContext());
 
 //        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("id").startAt(afterId).limitToFirst(5);
 
@@ -114,9 +114,26 @@ public class DiscoverFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                bar.setVisibility(View.GONE);
                 User fuser = snapshot.getValue(User.class);
                 myGender = fuser.getGender();
+
+                PagedList.Config config = new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(10)
+                        .setPageSize(10)
+                        .setPrefetchDistance(5)
+                        .build();
+
+                Query query = FirebaseDatabase.getInstance().getReference("Users");//.equalTo("Female","gender");//.equalTo(myGender, "gender").orderByChild("id");
+
+                DatabasePagingOptions<User> pagingOptions = new DatabasePagingOptions.Builder<User>()
+                        .setQuery(query, config, User.class)
+                        .setLifecycleOwner(getActivity())
+                        .build();
+
+                adapter = new DiscoverAdapter(pagingOptions, getContext(), myGender);
+                recyclerView.setAdapter(adapter);
 
             }
 
@@ -126,32 +143,31 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setVisibility(View.GONE);
+
+//        recyclerView.setVisibility(View.GONE);
         viewModel = ViewModelProviders.of(getActivity()).get(DiscoverViewModel.class);
-        viewModel.observerLoadFirst().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-
-                List<User> userList = new ArrayList<>(users);
-
-                for (User user : users){
-                    for (MessageList messageList : messageLists){
-                        if (user.getId().equals(messageList.getId())){
-                            userList.remove(user);
-
-
-                        }
-                    }
-                }
-                adapter.addUserFistLoad(userList);
-                bar.setVisibility(View.GONE);
-                userArrayList.addAll(users);
-                recyclerView.setVisibility(View.VISIBLE);
-                initialPageSize = userList.size();
-
-            }
-        });
+//        viewModel.observerLoadFirst().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
+//            @Override
+//            public void onChanged(List<User> users) {
+//
+//                List<User> userList = new ArrayList<>(users);
+//
+//                for (User user : users) {
+//                    for (MessageList messageList : messageLists) {
+//                        if (user.getId().equals(messageList.getId())) {
+//                            userList.remove(user);
+//
+//                        }
+//                    }
+//                }
+//                adapter.addUserFistLoad(userList);
+//                bar.setVisibility(View.GONE);
+//                userArrayList.addAll(users);
+//                recyclerView.setVisibility(View.VISIBLE);
+//                initialPageSize = userList.size();
+//
+//            }
+//        });
 
         viewModel.observerLoadNext().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
             @Override
@@ -159,9 +175,9 @@ public class DiscoverFragment extends Fragment {
 
                 List<User> userList = new ArrayList<>(users);
 
-                for (User user : users){
-                    for (MessageList messageList : messageLists){
-                        if (user.getId().equals(messageList.getId())){
+                for (User user : users) {
+                    for (MessageList messageList : messageLists) {
+                        if (user.getId().equals(messageList.getId())) {
                             userList.remove(user);
 
                         }
@@ -175,47 +191,36 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (!recyclerView.canScrollVertically(1)) {
-                    User user = userArrayList.get(userArrayList.size() - 1);
-//                    adapter.addMoreUserLoad(user.getId(),myGender);
-                    viewModel.doLoadNext(user.getId());
-                    Toast.makeText(getContext(), "loading next page", Toast.LENGTH_SHORT).show();
-//                    viewModel.isPageAtLastMutableLiveData.setValue(true);
-
-                } else {
-                    viewModel.isPageAtLastMutableLiveData.setValue(false);
-                }
-
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                visibleItemCount = zoomRecyclerLayout.getInitialPrefetchItemCount();
-
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//                if (!recyclerView.canScrollVertically(1)) {
+//                    User user = userArrayList.get(userArrayList.size() - 1);
+////                    adapter.addMoreUserLoad(user.getId(),myGender);
+//                    viewModel.doLoadNext(user.getId());
+//                    Toast.makeText(getContext(), "loading next page", Toast.LENGTH_SHORT).show();
+////                    viewModel.isPageAtLastMutableLiveData.setValue(true);
+//
+//                } else {
+//                    viewModel.isPageAtLastMutableLiveData.setValue(false);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//
+//                visibleItemCount = zoomRecyclerLayout.getInitialPrefetchItemCount();
+//
+//            }
+//        });
 
 //        Query query = FirebaseDatabase.getInstance().getReference("Users");
 ////
-//        PagedList.Config config = new PagedList.Config.Builder()
-//                .setEnablePlaceholders(false)
-//                .setInitialLoadSizeHint(10)
-//                .setPageSize(10)
-//                .setPrefetchDistance(5)
-//                .build();
-//
-//        DatabasePagingOptions<User> pagingOptions = new DatabasePagingOptions.Builder<User>()
-//                .setQuery(query, config, User.class)
-//                .setLifecycleOwner(this)
-//                .build();
-//
+
 //        RequestOptions requestOptions = new RequestOptions();
 //        requestOptions.error(R.drawable.no_p);
 //        requestOptions.placeholder(R.drawable.no_p);

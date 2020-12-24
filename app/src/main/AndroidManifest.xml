@@ -9,28 +9,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProfileActivity"  android:theme="@style/withTheme" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/withTheme" />
         <activity android:name=".MessageActivity" />
         <activity
             android:name=".LoginNumActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/withTheme" />
         <activity
             android:name=".CreateAccountGoogle"
+            android:screenOrientation="portrait"
             android:theme="@style/withTheme" />
         <activity
             android:name=".CreateAccountPhoneNumberActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/withTheme" />
         <activity
             android:name=".CreateAccountEmailPasswordActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/loginTheme" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/loginTheme" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/mainAcTheme" />
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/splashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

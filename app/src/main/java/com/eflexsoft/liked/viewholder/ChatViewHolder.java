@@ -14,7 +14,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatViewHolder extends RecyclerView.ViewHolder {
 
-    public RelativeLayout messageLayout;
+//    public RelativeLayout messageLayout;
     public TextView message;
     public TextView date;
     public TextView sent;
@@ -24,7 +24,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     public ChatViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        messageLayout = itemView.findViewById(R.id.sentText);
+//        messageLayout = itemView.findViewById(R.id.sentText);
         message = itemView.findViewById(R.id.message_text_chat);
         date = itemView.findViewById(R.id.sentDate);
         sent = itemView.findViewById(R.id.isSent);

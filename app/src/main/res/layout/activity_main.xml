@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+<layout>
 
 
-
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Button"-->
-<!--        android:onClick="logout"-->
-<!--        tools:layout_editor_absoluteX="202dp"-->
-<!--        tools:layout_editor_absoluteY="303dp" />-->
-
-    <FrameLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bnv"
-        android:id="@+id/frag_frame"/>
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="#ffffff"
-        android:elevation="20dp"
-        android:id="@+id/bnv"
-        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-        app:itemTextAppearanceInactive="@style/BottomNavigationView"
-        app:elevation="20dp"
-        app:itemIconTint="@drawable/tab_text_color"
-        app:itemTextColor="@drawable/tab_text_color"
-        app:labelVisibilityMode="labeled"
-        app:layout_anchorGravity="top"
-        app:menu="@menu/bvn_menu" />
+        <!--    <FrameLayout-->
+        <!--        android:id="@+id/frag_frame"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="match_parent"-->
+        <!--        android:layout_above="@id/bnv" />-->
+        <!--    &lt;!&ndash;    </FrameLayout>&ndash;&gt;-->
+        <fragment
+            android:id="@+id/fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bnv"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/bottom_nav" />
 
-</RelativeLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnv"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="#ffffff"
+            android:elevation="20dp"
+            app:elevation="20dp"
+            app:itemIconTint="@drawable/tab_text_color"
+            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+            app:itemTextAppearanceInactive="@style/BottomNavigationView"
+            app:itemTextColor="@drawable/tab_text_color"
+            app:labelVisibilityMode="labeled"
+            app:layout_anchorGravity="top"
+            app:menu="@menu/bvn_menu" />
+
+    </RelativeLayout>
+</layout>

@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentEnd="true"
-    android:layout_gravity="end">
+    android:layout_gravity="end"
+    android:gravity="end"
+    android:padding="2dp">
 
     <RelativeLayout
-        android:id="@+id/sentText"
-        android:layout_below="@id/sentDate"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_margin="2dp"
-        android:gravity="end">
+        android:layout_gravity="end"
+        android:gravity="end"
+        android:padding="2dp">
+
+        <TextView
+            android:id="@+id/sentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="2dp"
+            android:padding="5dp"
+            android:text="Dec 30 20202"
+            android:textColor="@color/off_line"
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/message_text_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/sentDate"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="2dp"
             android:background="@drawable/me_chat"
-            android:padding="6dp"
-            android:text=""
+            android:padding="13dp"
+            android:text="As we all know that RecyclerView is a UI component to show lists in Android. In this tutorial, you will learn, How to create a RecyclerView with Multiple View Types in Java Android. It’s is a chat App example. In this example, 2 types of views (text message in and out) are considered. "
+            android:textColor="#ffffff"
             android:textIsSelectable="true"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="17sp" />
+
+
+        <!--    </RelativeLayout>-->
 
         <TextView
             android:id="@+id/isSent"
@@ -34,45 +53,26 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/message_text_chat"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="1dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="1dp"
-            android:textColor="#A5A5A5"
+            android:text="Seen"
+            android:textColor="#F9F4FB"
             android:textSize="11sp"
             android:textStyle="bold" />
 
-
-
+        <ImageView
+            android:id="@+id/sentImage"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="3dp"
+            android:padding="10dp"
+            android:background="@drawable/me_chat"
+            android:src="@drawable/ba"
+            android:visibility="gone" />
+        <!--    -->
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/sentImage"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="3dp"
-        android:src="@drawable/ba"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/sentDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="2dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="1dp"
-        android:textColor="#A5A5A5"
-        android:textSize="11sp"
-        android:textStyle="bold" />
-
-<!--&lt;!&ndash;   this is just o avoid null pointer&ndash;&gt;-->
-<!--    <de.hdodenhof.circleimageview.CircleImageView-->
-<!--        android:id="@+id/proPicChat"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_marginTop="3dp"-->
-<!--        android:layout_marginEnd="3dp"-->
-<!--        android:visibility="gone"-->
-<!--        android:layout_marginStart="3dp"-->
-<!--        android:layout_height="50dp" />-->
 
 </RelativeLayout>
