@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.eflexsoft.liked.viewmodel.LoginViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -114,15 +115,18 @@ public class LoginActivity extends AppCompatActivity {
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             GoogleSignInAccount googleSignInAccount = null;
+
             try {
                 googleSignInAccount = task.getResult(ApiException.class);
+                AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(),null);
+                viewModel.loginCredential(authCredential);
+                progressDialog.show();
             } catch (ApiException e) {
                 e.printStackTrace();
+                Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show();
             }
 
-            AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(),null);
-            viewModel.loginCredential(authCredential);
-            progressDialog.show();
+
 
         }
 
