@@ -68,14 +68,14 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = googleSignInClient.getSignInIntent();
-                startActivityForResult(intent, 6);
-            }
-        });
+//        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+//        signInButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = googleSignInClient.getSignInIntent();
+//                startActivityForResult(intent, 6);
+//            }
+//        });
 
     }
 
