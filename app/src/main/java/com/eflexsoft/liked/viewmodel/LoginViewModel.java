@@ -16,6 +16,8 @@ public class LoginViewModel extends AndroidViewModel {
     LoginRepository repository;
 
     public MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> googleMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> fbMutableLiveData = new MutableLiveData<>();
 
 
     public LoginViewModel(@NonNull Application application) {
@@ -43,4 +45,11 @@ public class LoginViewModel extends AndroidViewModel {
 
     }
 
+    public LiveData<Boolean> getGoogleMutableLiveData() {
+        return googleMutableLiveData;
+    }
+
+    public LiveData<Boolean> getFbMutableLiveData() {
+        return fbMutableLiveData;
+    }
 }

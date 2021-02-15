@@ -2,15 +2,19 @@ package com.eflexsoft.liked;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.eflexsoft.liked.databinding.ActivityLoginNumBinding;
 import com.eflexsoft.liked.viewmodel.CreateAccountViewModel;
 import com.eflexsoft.liked.viewmodel.LoginViewModel;
 import com.google.firebase.FirebaseException;
@@ -21,13 +25,16 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.concurrent.TimeUnit;
 
+import io.michaelrocks.callmemaybe.CallMeMaybe;
+import io.michaelrocks.callmemaybe.FormatParameters;
+
 public class LoginNumActivity extends AppCompatActivity {
-
-    MaterialEditText number;
-    MaterialEditText code;
-    Button sendButton;
-    CountryCodePicker countryCodePicker;
-
+    //
+//    MaterialEditText number;
+//    MaterialEditText code;
+//    Button sendButton;
+//    CountryCodePicker countryCodePicker;
+//
     ProgressDialog progressDialog;
 
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
@@ -41,23 +48,32 @@ public class LoginNumActivity extends AppCompatActivity {
     String getNumber;
     String getCode;
 
+    ActivityLoginNumBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_num);
+//        setContentView(R.layout.activity_login_num);
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login_num);
 
-        number = findViewById(R.id.number);
-        code = findViewById(R.id.code);
-        sendButton = findViewById(R.id.letGo);
-        countryCodePicker = findViewById(R.id.ccp);
-        countryCodePicker.registerCarrierNumberEditText(number);
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+//        number = findViewById(R.id.number);
+//        code = findViewById(R.id.code);
+//        sendButton = findViewById(R.id.letGo);
+//        countryCodePicker = findViewById(R.id.ccp);
+        binding.ccp.registerCarrierNumberEditText(binding.number);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Signing in");
         progressDialog.setCancelable(false);
 
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         viewModel.booleanLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -79,7 +95,8 @@ public class LoginNumActivity extends AppCompatActivity {
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 progressDialog.dismiss();
-                Toast.makeText(LoginNumActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginNumActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onVerificationFailed: "+e.getMessage());
             }
 
             @Override
@@ -87,37 +104,60 @@ public class LoginNumActivity extends AppCompatActivity {
                 super.onCodeSent(s, forceResendingToken);
                 id = s;
                 isCodeSent = true;
-                sendButton.setText("Continue");
-                code.setVisibility(View.VISIBLE);
-
+                binding.sendCode.setVisibility(View.GONE);
+                binding.verifyLayout.setVisibility(View.VISIBLE);
             }
         };
 
     }
 
+    private static final String TAG = "LoginNumActivity";
     public void sendCode(View view) {
 
-        getNumber = number.getText().toString();
+//        binding.sendCode.setVisibility(View.GONE);
+//        binding.verifyLayout.setVisibility(View.VISIBLE);
 
-        if (isCodeSent) {
-            getCode = code.getText().toString();
-            if (getCode.trim().trim().isEmpty()) {
-                code.setError("missing");
-                return;
-            }
+        String number = binding.number.getText().toString();
 
-            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(id, getCode);
-            viewModel.loginCredential(phoneAuthCredential);
-            progressDialog.show();
-        } else {
-            if (getNumber.trim().isEmpty()) {
-                number.setError("missing");
-                return;
-            }
-
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(countryCodePicker.getFullNumberWithPlus(), 120, TimeUnit.SECONDS, this, callbacks);
-
+        if (!number.trim().isEmpty()) {
+            Toast.makeText(this, "Sending OTP", Toast.LENGTH_SHORT).show();
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(binding.ccp.getFullNumberWithPlus(), 120, TimeUnit.SECONDS, this, callbacks);
         }
 
+//        getNumber = number.getText().toString();
+//
+//        if (isCodeSent) {
+//            getCode = code.getText().toString();
+//            if (getCode.trim().trim().isEmpty()) {
+//                code.setError("missing");
+//                return;
+//            }
+//
+//            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(id, getCode);
+//            viewModel.loginCredential(phoneAuthCredential);
+//            progressDialog.show();
+//        } else {
+//            if (getNumber.trim().isEmpty()) {
+//                number.setError("missing");
+//                return;
+//            }
+//
+//            PhoneAuthProvider.getInstance().verifyPhoneNumber(countryCodePicker.getFullNumberWithPlus(), 120, TimeUnit.SECONDS, this, callbacks);
+//
+//        }
+
+    }
+
+    public void verify(View view) {
+
+        String code = binding.otpView.getOTP();
+
+        if (!code.trim().isEmpty()) {
+
+            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(id, code);
+            viewModel.loginCredential(phoneAuthCredential);
+            progressDialog.show();
+
+        }
     }
 }

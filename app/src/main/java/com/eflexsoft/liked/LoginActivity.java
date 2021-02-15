@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.eflexsoft.liked.fragment.SingInFragmentBottomSheet;
 import com.eflexsoft.liked.viewmodel.LoginViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.Password);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("signing in");
+        progressDialog.setMessage("Signing in");
         progressDialog.setCancelable(false);
         viewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         viewModel.booleanLiveData().observe(this, new Observer<Boolean>() {
@@ -67,8 +68,19 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+        viewModel.getGoogleMutableLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
 
-//        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+                if (aBoolean) {
+                    Intent intent = googleSignInClient.getSignInIntent();
+                    startActivityForResult(intent, 6);
+                }
+            }
+        });
+
+
 //        signInButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -118,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 googleSignInAccount = task.getResult(ApiException.class);
-                AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(),null);
+                AuthCredential authCredential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
                 viewModel.loginCredential(authCredential);
                 progressDialog.show();
             } catch (ApiException e) {
@@ -127,12 +139,35 @@ public class LoginActivity extends AppCompatActivity {
             }
 
 
-
         }
 
     }
 
     public void openPhoneLog(View view) {
         startActivity(new Intent(this, LoginNumActivity.class));
+    }
+
+    public void singInNumber(View view) {
+
+        SingInFragmentBottomSheet singInFragmentBottomSheet = new SingInFragmentBottomSheet("number");
+        singInFragmentBottomSheet.show(getSupportFragmentManager(), "number");
+
+    }
+
+    public void singInGoogle(View view) {
+        SingInFragmentBottomSheet singInFragmentBottomSheet = new SingInFragmentBottomSheet("google");
+        singInFragmentBottomSheet.show(getSupportFragmentManager(), "google");
+    }
+
+    public void singInEmail(View view) {
+        SingInFragmentBottomSheet singInFragmentBottomSheet = new SingInFragmentBottomSheet("email");
+        singInFragmentBottomSheet.show(getSupportFragmentManager(), "email");
+
+//        startActivity(new Intent(this,LoginEmailActivity.class));
+    }
+
+    public void singInFb(View view) {
+        SingInFragmentBottomSheet singInFragmentBottomSheet = new SingInFragmentBottomSheet("facebook");
+        singInFragmentBottomSheet.show(getSupportFragmentManager(), "facebook");
     }
 }
