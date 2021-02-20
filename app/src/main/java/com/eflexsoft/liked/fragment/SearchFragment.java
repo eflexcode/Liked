@@ -1,6 +1,5 @@
 package com.eflexsoft.liked.fragment;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -30,7 +29,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.eflexsoft.liked.MessageActivity;
 import com.eflexsoft.liked.R;
 import com.eflexsoft.liked.model.MessageList;
 import com.eflexsoft.liked.model.User;
@@ -166,7 +164,7 @@ public class SearchFragment extends Fragment {
                     searchErrorText.setVisibility(View.GONE);
                     searchError.setVisibility(View.GONE);
                     name_and_age.setText(user.getName() + "," + user.getAge());
-                    address.setText(user.getAddress());
+//                    address.setText(user.getLocation());
                     about.setText(user.getAbout());
                     gender.setText(user.getGender());
 

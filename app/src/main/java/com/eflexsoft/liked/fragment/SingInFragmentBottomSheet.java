@@ -59,7 +59,27 @@ public class SingInFragmentBottomSheet extends BottomSheetDialogFragment {
                     startActivity(new Intent(getContext(), LoginEmailActivity.class));
 
                 } else {
+                    viewModel.fbMutableLiveData.setValue(true);
+                }
+            }
+        });
 
+        binding.newUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dismiss();
+
+                if (action.equals("number")) {
+//                    startActivity(new Intent(getContext(), LoginNumActivity.class));
+                } else if (action.equals("google")) {
+                    viewModel.googleMutableLiveData.setValue(true);
+                } else if (action.equals("email")) {
+
+//                    startActivity(new Intent(getContext(), LoginEmailActivity.class));
+
+                } else {
+                    viewModel.fbMutableLiveData.setValue(true);
                 }
             }
         });

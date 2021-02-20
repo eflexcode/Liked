@@ -13,7 +13,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/s_back" />
 
-
     <LinearLayout
         android:id="@+id/t"
         android:layout_width="wrap_content"
@@ -47,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/sing_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="220dp"
         android:fontFamily="monospace"
         android:text="Tap to start dating"
         android:textColor="#fff"
@@ -132,17 +131,17 @@
         android:drawableStart="@drawable/ic_arroba"
         android:onClick="singInEmail"
         android:padding="10dp"
-        android:text="Sign in with Email"
+        android:text="Continue with email"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="normal" />
 
     <Button
         android:id="@+id/sign_google"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/fb"
+        android:layout_above="@id/logbtn"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -151,30 +150,30 @@
         android:drawableStart="@drawable/ic_google"
         android:onClick="singInGoogle"
         android:padding="10dp"
-        android:text="Sign in with google"
+        android:text="Continue with google"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="normal" />
 
-    <Button
-        android:id="@+id/fb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/login_btn_background2"
-        android:drawableStart="@drawable/ic_facebook"
-        android:onClick="singInFb"
-        android:padding="10dp"
-        android:layout_above="@id/logbtn"
-        android:text="Sign with facebook"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
-        android:textStyle="normal" />
+<!--    <Button-->
+<!--        android:id="@+id/fb"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:background="@drawable/login_btn_background2"-->
+<!--        android:drawableStart="@drawable/ic_facebook"-->
+<!--        android:onClick="singInFb"-->
+<!--        android:padding="10dp"-->
+<!--        android:layout_above="@id/logbtn"-->
+<!--        android:text="Continue with facebook"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="normal" />-->
 
     <Button
         android:id="@+id/logbtn"
@@ -189,10 +188,10 @@
         android:drawableStart="@drawable/ic_telephone"
         android:onClick="singInNumber"
         android:padding="10dp"
-        android:text="Sign with phone number"
+        android:text="Continue with phone number"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="normal" />
 
 

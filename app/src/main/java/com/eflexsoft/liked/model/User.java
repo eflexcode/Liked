@@ -1,12 +1,11 @@
 package com.eflexsoft.liked.model;
 
-import java.util.HashMap;
-
 public class User {
 
     private String id;
     private String name;
-    private String address;
+    private double longitude;
+    private double latitude;
     private String gender;
     private String age;
     private String about;
@@ -15,16 +14,22 @@ public class User {
     private String phoneNumber;
     private String isOnline;
 
+    private String displayImage1;
+    private String displayImage2;
+    private String displayImage3;
+
     // for liking
     private boolean isLiked;
 
     public User() {
     }
 
-    public User(String id, String name, String address, String gender, String age, String about, String email, String profilePictureUrl, String phoneNumber,String isOnline,boolean isLiked) {
+
+    public User(String id, String name, double longitude, double latitude, String gender, String age, String about, String email, String profilePictureUrl, String phoneNumber, String isOnline, String displayImage1, String displayImage2, String displayImage3, boolean isLiked) {
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.gender = gender;
         this.age = age;
         this.about = about;
@@ -32,6 +37,9 @@ public class User {
         this.profilePictureUrl = profilePictureUrl;
         this.phoneNumber = phoneNumber;
         this.isOnline = isOnline;
+        this.displayImage1 = displayImage1;
+        this.displayImage2 = displayImage2;
+        this.displayImage3 = displayImage3;
         this.isLiked = isLiked;
     }
 
@@ -51,12 +59,20 @@ public class User {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public String getGender() {
@@ -123,4 +139,27 @@ public class User {
         isLiked = liked;
     }
 
+    public String getDisplayImage1() {
+        return displayImage1;
+    }
+
+    public void setDisplayImage1(String displayImage1) {
+        this.displayImage1 = displayImage1;
+    }
+
+    public String getDisplayImage2() {
+        return displayImage2;
+    }
+
+    public void setDisplayImage2(String displayImage2) {
+        this.displayImage2 = displayImage2;
+    }
+
+    public String getDisplayImage3() {
+        return displayImage3;
+    }
+
+    public void setDisplayImage3(String displayImage3) {
+        this.displayImage3 = displayImage3;
+    }
 }

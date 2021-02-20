@@ -20,6 +20,9 @@ public class LoginEmailActivity extends AppCompatActivity {
     LoginViewModel viewModel;
     ProgressDialog progressDialog;
 
+    boolean emailEmpty;
+    boolean passwordEmpty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,17 @@ public class LoginEmailActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.passwordLayout.setError(null);
+//                binding.passwordLayout.setError(null);
+
+                String password = s.toString();
+
+                if (password.trim().isEmpty()) {
+                    passwordEmpty = false;
+                } else {
+                    passwordEmpty = true;
+                }
+                changeSignBntBackground();
+
             }
 
             @Override
@@ -79,7 +92,23 @@ public class LoginEmailActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.emailLayout.setError(null);
+
+                String email = s.toString();
+
+                if (email.trim().isEmpty()) {
+                    emailEmpty = false;
+                } else {
+                    emailEmpty = true;
+                }
+                changeSignBntBackground();
+
+                if (email.contains("@") && email.contains(".com")){
+                    binding.emailLayout.setError(null);
+                }else {
+                    binding.emailLayout.setError("Invalid email address");
+                }
+
+//
             }
 
             @Override
@@ -95,14 +124,21 @@ public class LoginEmailActivity extends AppCompatActivity {
         String email = binding.email.getText().toString();
         String password = binding.password.getText().toString();
 
-        if (email.trim().isEmpty()) {
-            binding.emailLayout.setError("Email is required");
-        } else if (password.trim().isEmpty()) {
-            binding.passwordLayout.setError("Password is required");
-        } else {
+        if (!email.trim().isEmpty() && !password.trim().isEmpty()) {
             viewModel.doLogin(email, password);
             progressDialog.show();
         }
 
     }
+
+    public void changeSignBntBackground() {
+
+        if (emailEmpty && passwordEmpty) {
+            binding.singIn.setBackgroundResource(R.drawable.login_btn_background);
+        } else {
+            binding.singIn.setBackgroundResource(R.drawable.login_btn_background4);
+        }
+
+    }
+
 }

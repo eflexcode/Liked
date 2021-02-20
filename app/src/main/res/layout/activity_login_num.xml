@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
@@ -21,161 +21,196 @@
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
             app:titleTextColor="#000000" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@drawable/drapic2"-->
+        <!--            android:layout_above="@id/g"-->
+        <!--            android:layout_below="@id/toolbar"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/g"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+
+        <!--        <View-->
+        <!--            android:id="@+id/g"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="180dp"-->
+        <!--            android:layout_alignParentBottom="true" />-->
+        <TextView
+            android:id="@+id/liked"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/drapic2"
-            android:layout_above="@id/g"
             android:layout_below="@id/toolbar"
-            app:layout_constraintBottom_toTopOf="@+id/g"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:text="Liked"
+            android:textColor="@color/colorAccent"
+            android:textSize="60sp"
+            android:textStyle="bold" />
 
-        <View
-            android:id="@+id/g"
-            android:layout_width="wrap_content"
-            android:layout_height="180dp"
-            android:layout_alignParentBottom="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/liked"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:text="Please enter a valid phone number"
+            android:textColor="#000"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
-        <RelativeLayout
-            android:id="@+id/send_code"
-            android:layout_width="wrap_content"
-            android:layout_height="170dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:visibility="visible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:gravity="center"
+            android:orientation="vertical">
 
-
-            <LinearLayout
-                android:id="@+id/ccplayout"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/send_code"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/letGo"
-                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:visibility="visible">
 
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp"
-                    android:layout_width="50dp"
+                <LinearLayout
+                    android:id="@+id/ccplayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
-                    app:ccp_arrowSize="20dp"
-                    app:ccp_rememberLastSelection="true"
-                    app:ccp_autoDetectCountry="true"
-                    app:ccp_contentColor="@color/colorPrimary"
-                    app:ccp_hintExampleNumber="true"
-                    app:ccp_showArrow="true" />
+                    android:layout_above="@id/letGo"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        app:ccp_arrowSize="20dp"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccp_contentColor="@color/colorPrimary"
+                        app:ccp_hintExampleNumber="true"
+                        app:ccp_rememberLastSelection="true"
+                        app:ccp_showArrow="true" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
+                        android:hint="Phone number"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:padding="5dp"
+                        android:textColorHint="#AEACAC"
+                        android:textSize="15sp"
+                        app:met_errorColor="#ff0000"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelAnimating="true"
+                        app:met_floatingLabelText="Phone number"
+                        app:met_floatingLabelTextColor="#000000"
+                        app:met_floatingLabelTextSize="12dp"
+                        app:met_primaryColor="#000000"
+                        app:met_textColor="#000000"
+                        app:met_textColorHint="#000000" />
+
+
+                </LinearLayout>
 
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/number"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/code"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="bottom"
-                    android:hint="Mobile number"
-                    android:inputType="number"
+                    android:layout_below="@id/ccplayout"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:hint="Enter code"
+                    android:inputType="textPassword"
                     android:textColorHint="#000000"
-                    android:textSize="20sp"
-                    android:padding="5dp"
-                    android:maxLength="11"
+                    android:textSize="14sp"
+                    android:visibility="gone"
                     app:met_errorColor="#ff0000"
                     app:met_floatingLabel="highlight"
                     app:met_floatingLabelAnimating="true"
-                    app:met_floatingLabelText="Mobile number"
+                    app:met_floatingLabelText="Enter code"
                     app:met_floatingLabelTextColor="#000000"
                     app:met_floatingLabelTextSize="12dp"
                     app:met_primaryColor="#000000"
                     app:met_textColor="#000000"
                     app:met_textColorHint="#000000" />
 
+                <Button
+                    android:id="@+id/letGo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/login_btn_background4"
+                    android:onClick="sendCode"
+                    android:padding="10dp"
+                    android:text="Send code"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
-            </LinearLayout>
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/code"
+            <RelativeLayout
+                android:id="@+id/verify_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ccplayout"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:hint="Enter code"
-                android:inputType="textPassword"
-                android:textColorHint="#000000"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:met_errorColor="#ff0000"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelAnimating="true"
-                app:met_floatingLabelText="Enter code"
-                app:met_floatingLabelTextColor="#000000"
-                app:met_floatingLabelTextSize="12dp"
-                app:met_primaryColor="#000000"
-                app:met_textColor="#000000"
-                app:met_textColorHint="#000000" />
-
-            <Button
-                android:id="@+id/letGo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/login_btn_background"
-                android:onClick="sendCode"
-                android:padding="10dp"
-                android:text="Send code"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp" />
-        </RelativeLayout>
+                android:gravity="center"
+                android:visibility="gone">
 
-        <RelativeLayout
-            android:id="@+id/verify_layout"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:visibility="gone">
+                <in.aabhasjindal.otptextview.OtpTextView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/v"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#000000"
+                    app:bar_enabled="true"
+                    app:bar_height="2dp"
+                    app:height="40dp"
+                    app:length="6"
+                    app:otp=""
+                    app:otp_text_size="24dp"
+                    app:width="40dp" />
 
-            <in.aabhasjindal.otptextview.OtpTextView
-                android:id="@+id/otp_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/v"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:textColor="#000000"
-                app:bar_enabled="true"
-                app:bar_height="2dp"
-                app:height="40dp"
-                app:length="6"
-                app:otp=""
-                app:otp_text_size="24dp"
-                app:width="40dp" />
+                <Button
+                    android:id="@+id/v"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/login_btn_background4"
+                    android:onClick="verify"
+                    android:padding="10dp"
+                    android:text="Verify"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="15sp" />
+            </RelativeLayout>
 
-            <Button
-                android:id="@+id/v"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/login_btn_background"
-                android:onClick="verify"
-                android:padding="10dp"
-                android:text="Verify"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-
+        </LinearLayout>
     </RelativeLayout>
 </layout>
