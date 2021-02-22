@@ -202,7 +202,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="0dp"
-                    android:background="@drawable/login_btn_background4"
+                    android:background="@drawable/login_btn_background"
                     android:onClick="verify"
                     android:padding="10dp"
                     android:text="Verify"

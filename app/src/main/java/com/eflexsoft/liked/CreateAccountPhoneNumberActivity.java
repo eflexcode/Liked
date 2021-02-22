@@ -104,7 +104,7 @@ public class CreateAccountPhoneNumberActivity extends AppCompatActivity {
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                viewModel.createAccountCredential(phoneAuthCredential,Names,getAddress,getGender,getAge,getAboutMe);
+                viewModel.createAccountCredential(phoneAuthCredential,Names,getGender,getAge);
                 progressDialog.show();
             }
 
@@ -170,7 +170,7 @@ public class CreateAccountPhoneNumberActivity extends AppCompatActivity {
             }
 
             PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(id, getCode);
-            viewModel.createAccountCredential(phoneAuthCredential,Names,getAddress,getGender,getAge,getAboutMe);
+            viewModel.createAccountCredential(phoneAuthCredential,Names,getGender,getAge);
             progressDialog.show();
         } else {
 

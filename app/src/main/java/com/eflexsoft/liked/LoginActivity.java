@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                         int age = calendar.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
 
                         if (calendar.get(Calendar.DAY_OF_YEAR) > dob.get(Calendar.DAY_OF_YEAR)) {
-                            age--;
+                            age -= 1;
                         }
 
                         String theage = String.valueOf(age).substring(2);

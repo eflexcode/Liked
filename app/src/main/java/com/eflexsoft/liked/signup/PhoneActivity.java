@@ -1,43 +1,34 @@
-package com.eflexsoft.liked;
+package com.eflexsoft.liked.signup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.eflexsoft.liked.databinding.ActivityLoginNumBinding;
+import com.eflexsoft.liked.LoginNumActivity;
+import com.eflexsoft.liked.R;
+import com.eflexsoft.liked.databinding.ActivityPhoneBinding;
 import com.eflexsoft.liked.viewmodel.CreateAccountViewModel;
 import com.eflexsoft.liked.viewmodel.LoginViewModel;
-
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.hbb20.CountryCodePicker;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.concurrent.TimeUnit;
 
-import io.michaelrocks.callmemaybe.CallMeMaybe;
-import io.michaelrocks.callmemaybe.FormatParameters;
+public class PhoneActivity extends AppCompatActivity {
 
-public class LoginNumActivity extends AppCompatActivity {
-    //
-//    MaterialEditText number;
-//    MaterialEditText code;
-//    Button sendButton;
-//    CountryCodePicker countryCodePicker;
-//
+    ActivityPhoneBinding binding;
     ProgressDialog progressDialog;
 
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
@@ -46,39 +37,33 @@ public class LoginNumActivity extends AppCompatActivity {
 
     String id;
 
-    LoginViewModel viewModel;
+    //    LoginViewModel viewModel;
+    CreateAccountViewModel viewModel;
 
-    String getNumber;
-    String getCode;
-
-    ActivityLoginNumBinding binding;
+    String name;
+    String age;
+    String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_login_num);
+//        setContentView(R.layout.activity_phone);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login_num);
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_phone);
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-//        number = findViewById(R.id.number);
-//        code = findViewById(R.id.code);
-//        sendButton = findViewById(R.id.letGo);
-//        countryCodePicker = findViewById(R.id.ccp);
 
-        binding.ccp.registerCarrierNumberEditText(binding.number);
-//        binding.ccp.for
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");
+        age = intent.getStringExtra("age");
+        gender = intent.getStringExtra("gender");
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Signing in");
-        progressDialog.setCancelable(false);
-
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CreateAccountViewModel.class);
         viewModel.booleanLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -89,20 +74,25 @@ public class LoginNumActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.ccp.registerCarrierNumberEditText(binding.number);
+//        binding.ccp.for
 
-//        binding.otpView.;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Creating account");
+        progressDialog.setCancelable(false);
+
 
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                viewModel.loginCredentialPhone(phoneAuthCredential);
+                viewModel.createAccountCredential(phoneAuthCredential,name,gender,age);
                 progressDialog.show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 progressDialog.dismiss();
-                Toast.makeText(LoginNumActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PhoneActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 Log.d(TAG, "onVerificationFailed: " + e.getMessage());
             }
 
@@ -113,6 +103,7 @@ public class LoginNumActivity extends AppCompatActivity {
                 isCodeSent = true;
                 binding.sendCode.setVisibility(View.GONE);
                 binding.verifyLayout.setVisibility(View.VISIBLE);
+                binding.t.setText("Enter verification code");
             }
         };
 
@@ -141,6 +132,7 @@ public class LoginNumActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
@@ -189,9 +181,10 @@ public class LoginNumActivity extends AppCompatActivity {
         if (!code.trim().isEmpty()) {
 
             PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(id, code);
-            viewModel.loginCredentialPhone(phoneAuthCredential);
+            viewModel.createAccountCredential(phoneAuthCredential,name,gender,age);
             progressDialog.show();
 
         }
     }
+
 }

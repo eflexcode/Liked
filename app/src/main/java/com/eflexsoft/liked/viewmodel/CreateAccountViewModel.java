@@ -22,15 +22,15 @@ public class CreateAccountViewModel extends AndroidViewModel {
         repository = new CreateAccountRepository(application);
     }
 
-    public void createAccountEmailPassword(final String names, final String Address, final String gender, final String age, final String about, final String email, String password) {
+    public void createAccountEmailPassword(final String names, final String gender, final String age, final String email, String password) {
 
-        repository.createAccountEmailPassword(names, Address, gender, age, about, email, password);
+        repository.createAccountEmailPassword(names, gender, age, email, password);
 
     }
 
-    public void createAccountCredential(AuthCredential authCredential, final String names, final String Address, final String gender, final String age, final String about) {
+    public void createAccountCredential(AuthCredential authCredential, final String names, final String gender, final String age) {
 
-        repository.createAccountCredential(authCredential, names, Address, gender, age, about);
+        repository.createAccountCredential(authCredential, names, gender, age);
 
     }
 

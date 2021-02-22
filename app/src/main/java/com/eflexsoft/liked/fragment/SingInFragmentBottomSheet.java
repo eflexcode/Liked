@@ -17,6 +17,7 @@ import com.eflexsoft.liked.LoginEmailActivity;
 import com.eflexsoft.liked.LoginNumActivity;
 import com.eflexsoft.liked.R;
 import com.eflexsoft.liked.databinding.SingInAsLayoutBinding;
+import com.eflexsoft.liked.signup.NameActivity;
 import com.eflexsoft.liked.viewmodel.LoginViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -71,12 +72,12 @@ public class SingInFragmentBottomSheet extends BottomSheetDialogFragment {
                 dismiss();
 
                 if (action.equals("number")) {
-//                    startActivity(new Intent(getContext(), LoginNumActivity.class));
+                    startActivity(new Intent(getContext(), NameActivity.class).putExtra("isNum",true));
                 } else if (action.equals("google")) {
                     viewModel.googleMutableLiveData.setValue(true);
                 } else if (action.equals("email")) {
 
-//                    startActivity(new Intent(getContext(), LoginEmailActivity.class));
+                    startActivity(new Intent(getContext(), NameActivity.class));
 
                 } else {
                     viewModel.fbMutableLiveData.setValue(true);

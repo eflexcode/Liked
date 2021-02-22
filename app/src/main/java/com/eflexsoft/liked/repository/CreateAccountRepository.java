@@ -9,6 +9,7 @@ import androidx.arch.core.internal.SafeIterableMap;
 import androidx.lifecycle.MutableLiveData;
 
 import com.eflexsoft.liked.MainActivity;
+import com.eflexsoft.liked.signup.CreateProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +30,7 @@ public class CreateAccountRepository {
         this.context = context;
     }
 
-    public void createAccountEmailPassword(final String names, final String Address, final String gender, final String age, final String about, final String email, String password) {
+    public void createAccountEmailPassword(final String names, final String gender, final String age, final String email, String password) {
 
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -42,11 +43,10 @@ public class CreateAccountRepository {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("id", firebaseAuth.getCurrentUser().getUid());
                     map.put("name", names);
-                    map.put("address", Address);
                     map.put("gender", gender);
                     map.put("age", age);
-                    map.put("about", about);
-                    map.put("isOnline","no");
+                    map.put("timeStamp",System.currentTimeMillis());
+                    map.put("isOnline", "yes");
                     map.put("email", email);
                     map.put("profilePictureUrl", "default");
 
@@ -54,7 +54,7 @@ public class CreateAccountRepository {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Intent intent = new Intent(context, MainActivity.class);
+                                Intent intent = new Intent(context, CreateProfileActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                                 booleanMutableLiveData.setValue(false);
@@ -77,10 +77,9 @@ public class CreateAccountRepository {
             }
         });
 
-
     }
 
-    public void createAccountCredential(AuthCredential authCredential, final String names, final String Address, final String gender, final String age, final String about) {
+    public void createAccountCredential(AuthCredential authCredential, final String names, final String gender, final String age) {
 
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -92,10 +91,9 @@ public class CreateAccountRepository {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("id", firebaseAuth.getCurrentUser().getUid());
                     map.put("name", names);
-                    map.put("address", Address);
                     map.put("gender", gender);
                     map.put("age", age);
-                    map.put("about", about);
+                    map.put("timeStamp",System.currentTimeMillis());
                     map.put("email", firebaseAuth.getCurrentUser().getEmail());
                     map.put("phoneNumber", firebaseAuth.getCurrentUser().getPhoneNumber());
                     map.put("profilePictureUrl", "default");
@@ -104,7 +102,7 @@ public class CreateAccountRepository {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Intent intent = new Intent(context, MainActivity.class);
+                                Intent intent = new Intent(context, CreateProfileActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                                 booleanMutableLiveData.setValue(false);

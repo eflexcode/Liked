@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.eflexsoft.liked.LoginActivity;
 import com.eflexsoft.liked.MainActivity;
 import com.eflexsoft.liked.model.User;
+import com.eflexsoft.liked.signup.CreateProfileActivity;
 import com.eflexsoft.liked.viewmodel.LoginViewModel;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -36,6 +37,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -85,10 +87,26 @@ public class LoginRepository {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-//                    Intent intent = new Intent(context, MainActivity.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    context.startActivity(intent);
-//                    booleanMutableLiveData.setValue(false);
+
+                    boolean isUserNew = task.getResult().getAdditionalUserInfo().isNewUser();
+
+                    if (isUserNew) {
+
+                        Toast.makeText(context, "You area new user please create an account", Toast.LENGTH_SHORT).show();
+
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+                        firebaseUser.delete();
+
+                        firebaseAuth.signOut();
+
+                    } else {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                    }
+                    booleanMutableLiveData.setValue(false);
+//
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -141,11 +159,11 @@ public class LoginRepository {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-//                                    Intent intent = new Intent(context, MainActivity.class);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                    context.startActivity(intent);
-//                                    booleanMutableLiveData.setValue(false);
-                                    viewModel.accessUserLocationMutableLiveData.setValue(true);
+                                    Intent intent = new Intent(context, CreateProfileActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    context.startActivity(intent);
+                                    booleanMutableLiveData.setValue(false);
+//                                    viewModel.accessUserLocationMutableLiveData.setValue(true);
                                 }
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -326,7 +344,6 @@ public class LoginRepository {
 //                                    private boolean isLiked;
 
 
-
                                     String name = object.getString("name");
                                     String email = object.getString("email");
 //                                    String gender = object.getString("gender");
@@ -367,7 +384,7 @@ public class LoginRepository {
 //                                    User user = new User(id,name,"",gender,"No age","No about yet",email,profilePic,"No phone number yet","yes","no image","no image","no image");
 
                                 } catch (Exception e) {
-                                    Toast.makeText(loginActivity, "eeeeeeeeeeeeeeeeeeeee "+e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(loginActivity, "eeeeeeeeeeeeeeeeeeeee " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -422,4 +439,3 @@ public class LoginRepository {
     }
 
 }
-

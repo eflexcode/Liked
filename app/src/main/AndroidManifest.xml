@@ -14,9 +14,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity android:name=".AgeActivity"></activity>-->
-        <activity android:name=".signup.EmailActivity" />
-        <activity android:name=".signup.NameActivity" />
+<!--        <activity android:name=".signup.CreateProfileActivity"></activity>-->
+        <activity android:name=".signup.PhoneActivity" />
+        <activity
+            android:name=".signup.PasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SlideTheme" />
+        <activity
+            android:name=".signup.GenderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SlideTheme" />
+        <activity
+            android:name=".signup.AgeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SlideTheme" />
+        <activity
+            android:name=".signup.EmailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SlideTheme" />
+        <activity
+            android:name=".signup.NameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/withTheme" />
         <activity android:name=".LoginEmailActivity" />
         <activity
             android:name=".EditProfileActivity"
@@ -48,7 +67,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/mainAcTheme" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".signup.CreateProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/splashTheme">
             <intent-filter>

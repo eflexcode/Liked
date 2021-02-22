@@ -194,7 +194,7 @@ public class CreateAccountGoogle extends AppCompatActivity {
             assert signInAccount != null;
             AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
 
-            viewModel.createAccountCredential(authCredential, Names, getAddress, getGender, getAge, getAboutMe);
+            viewModel.createAccountCredential(authCredential, Names, getGender, getAge);
             progressDialog.show();
         }
 

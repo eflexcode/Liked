@@ -196,7 +196,7 @@ public class CreateAccountEmailPasswordActivity extends AppCompatActivity {
             return;
         }
 
-            viewModel.createAccountEmailPassword(Names,getAddress,getGender,getAge,getAboutMe,getEmail,getPassword);
+            viewModel.createAccountEmailPassword(Names,getGender,getAge,getEmail,getPassword);
             progressDialog.show();
     }
 }
