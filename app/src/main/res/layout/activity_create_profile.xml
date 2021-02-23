@@ -74,6 +74,7 @@
                     android:background="@drawable/cirlce_bk">
 
                     <ImageButton
+                        android:id="@+id/e"
                         android:layout_width="15dp"
                         android:layout_height="20dp"
                         android:layout_centerInParent="true"
@@ -125,6 +126,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
+                    android:textStyle="bold"
                     android:text="Add your display images"
                     android:textColor="#000" />
 
@@ -162,15 +164,17 @@
                                 android:layout_alignEnd="@id/pro_pic_me"
                                 android:layout_alignBottom="@id/pro_pic_me"
                                 android:layout_gravity="end"
-                                android:layout_margin="20dp"
+                                android:layout_margin="10dp"
                                 android:alpha="0.5"
-                                android:background="@drawable/cirlce_bk2">
+                                android:background="@drawable/cirlce_bk2"
+                                android:onClick="dis1Image">
 
                                 <ImageButton
                                     android:layout_width="15dp"
                                     android:layout_height="20dp"
                                     android:layout_centerInParent="true"
                                     android:background="@android:color/transparent"
+                                    android:onClick="dis1Image"
                                     android:scaleType="centerInside"
                                     android:src="@drawable/ic_camera_to_take_photos" />
                             </RelativeLayout>
@@ -200,15 +204,17 @@
                                 android:layout_alignEnd="@id/pro_pic_me"
                                 android:layout_alignBottom="@id/pro_pic_me"
                                 android:layout_gravity="end"
-                                android:layout_margin="20dp"
+                                android:layout_margin="10dp"
                                 android:alpha="0.5"
-                                android:background="@drawable/cirlce_bk2">
+                                android:background="@drawable/cirlce_bk2"
+                                android:onClick="dis2Image">
 
                                 <ImageButton
                                     android:layout_width="15dp"
                                     android:layout_height="20dp"
                                     android:layout_centerInParent="true"
                                     android:background="@android:color/transparent"
+                                    android:onClick="dis2Image"
                                     android:scaleType="centerInside"
                                     android:src="@drawable/ic_camera_to_take_photos" />
                             </RelativeLayout>
@@ -237,15 +243,17 @@
                                 android:layout_alignEnd="@id/pro_pic_me"
                                 android:layout_alignBottom="@id/pro_pic_me"
                                 android:layout_gravity="end"
-                                android:layout_margin="20dp"
+                                android:layout_margin="10dp"
                                 android:alpha="0.5"
-                                android:background="@drawable/cirlce_bk2">
+                                android:background="@drawable/cirlce_bk2"
+                                android:onClick="dis3Image">
 
                                 <ImageButton
                                     android:layout_width="15dp"
                                     android:layout_height="20dp"
                                     android:layout_centerInParent="true"
                                     android:background="@android:color/transparent"
+                                    android:onClick="dis3Image"
                                     android:scaleType="centerInside"
                                     android:src="@drawable/ic_camera_to_take_photos" />
                             </RelativeLayout>
@@ -281,6 +289,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/login_btn_background4"
                     android:text="Publish"
+                    android:onClick="PublishProfile"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"

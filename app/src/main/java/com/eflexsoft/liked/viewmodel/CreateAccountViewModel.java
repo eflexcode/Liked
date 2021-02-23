@@ -1,6 +1,7 @@
 package com.eflexsoft.liked.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,12 +11,15 @@ import androidx.lifecycle.MutableLiveData;
 import com.eflexsoft.liked.repository.CreateAccountRepository;
 import com.google.firebase.auth.AuthCredential;
 
+import java.util.List;
+
 public class CreateAccountViewModel extends AndroidViewModel {
 
     CreateAccountRepository repository;
 
     public MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
-
+    public MutableLiveData<String> cameraMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<String> galleryMutableLiveData = new MutableLiveData<>();
 
     public CreateAccountViewModel(@NonNull Application application) {
         super(application);
@@ -42,4 +46,15 @@ public class CreateAccountViewModel extends AndroidViewModel {
 
     }
 
+    public LiveData<String> getCameraMutableLiveData() {
+        return cameraMutableLiveData;
+    }
+
+    public LiveData<String> getGalleryMutableLiveData() {
+        return galleryMutableLiveData;
+    }
+
+    public void publishProfile(Uri profileUrl, String about, List<Uri> displayImages, double log, double lat) {
+        repository.publishProfile(profileUrl, about, displayImages, log, lat);
+    }
 }

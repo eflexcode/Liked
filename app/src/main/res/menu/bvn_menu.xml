@@ -3,13 +3,9 @@
 
     <item
         android:id="@+id/discoverFragment"
-        android:icon="@drawable/ic_compass"
-        android:title="Discover" />
+        android:icon="@drawable/ic_heart__7_"
+        android:title="Find love" />
 
-    <item
-        android:id="@+id/searchFragment"
-        android:icon="@drawable/ic_search_5_"
-        android:title="Search" />
 
     <item
         android:id="@+id/messageFragment"

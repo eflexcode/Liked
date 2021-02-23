@@ -1,51 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+<layout>
 
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="0dp"
+    android:background="#FFFFFF"
+    android:paddingBottom="30dp">
 
     <TextView
+        android:id="@+id/f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Continue with"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textColor="#000000"
-        android:text="Continue with"
-        android:fontFamily="monospace"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="5dp"/>
-
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_margin="10sp"
-        android:text="camera"
-        android:id="@+id/camera"
-        android:fontFamily="monospace"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/login_btn_background3"
+        android:drawableStart="@drawable/ic_camera_to_take_photos2"
+        android:padding="10dp"
+        android:text="Camera"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:textColor="#fff"
-        android:layout_gravity="center"
-        android:background="@drawable/login_btn_background" />
+        android:textColor="#020202"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@id/f" />
 
     <Button
-        android:layout_width="250dp"
-        android:layout_margin="10dp"
-        android:fontFamily="monospace"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
         android:id="@+id/gallery"
-        android:text="gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/login_btn_background3"
+        android:drawableStart="@drawable/ic_folder"
+        android:padding="10dp"
+        android:text="Gallery"
         android:textAllCaps="false"
-        android:textSize="20sp"
-        android:textColor="#fff"
-        android:background="@drawable/login_btn_background" />
-    <View
-        android:layout_width="350dp"
-        android:layout_height="0.1dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@android:color/transparent" />
-</LinearLayout>
+        android:textColor="#020202"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@id/camera" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,8 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity android:name=".signup.CreateProfileActivity"></activity>-->
-        <activity android:name=".signup.PhoneActivity" />
+        <activity
+            android:name=".signup.CreateProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/withTheme" />
+        <activity
+            android:name=".signup.PhoneActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".signup.PasswordActivity"
             android:screenOrientation="portrait"
@@ -67,7 +75,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/mainAcTheme" />
         <activity
-            android:name=".signup.CreateProfileActivity"
+            android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/splashTheme">
             <intent-filter>
