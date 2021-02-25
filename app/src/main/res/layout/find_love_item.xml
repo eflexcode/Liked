@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="2.5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="2.5dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/user_dis_pic_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/project_image_2" />
+
+            <ImageView
+                android:id="@+id/bottom_image"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/name_back" />
+
+<!--            <ImageView-->
+<!--                android:id="@+id/up_image"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_alignParentTop="true"-->
+<!--                android:src="@drawable/name_back_up" />-->
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pro_pic_me"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="20dp"
+                android:src="@drawable/project_image_4" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/online"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignBottom="@id/pro_pic_me"
+                android:layout_marginStart="-25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@id/pro_pic_me"
+                android:src="@color/on_line" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/pro_pic_me"
+                android:layout_alignBottom="@id/pro_pic_me"
+                android:layout_marginStart="-10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@id/pro_pic_me"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:maxWidth="70dp"
+                android:maxLines="1"
+                android:text="Annie"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/pro_pic_me"
+                android:layout_alignBottom="@id/pro_pic_me"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@id/name"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:maxWidth="60dp"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:text="20"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/pro_pic_me"
+                android:layout_marginStart="-10dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toEndOf="@id/pro_pic_me"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:text="10 mill away"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+
+            <com.like.LikeButton
+                android:id="@+id/star_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                app:circle_end_color="@color/colorAccent"
+                app:circle_start_color="#757272"
+                app:dots_primary_color="@color/colorAccent"
+                app:dots_secondary_color="@color/colorAccent"
+                app:icon_size="20dp"
+                app:icon_type="heart"
+                app:like_drawable="@drawable/ic_heart__8_"
+                app:unlike_drawable="@drawable/ic_heart__7_3" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

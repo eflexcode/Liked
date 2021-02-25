@@ -5,10 +5,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
@@ -27,6 +29,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.eflexsoft.liked.R;
 import com.eflexsoft.liked.adapter.DiscoverAdapter;
+import com.eflexsoft.liked.databinding.FragmentDiscoverBinding;
 import com.eflexsoft.liked.model.MessageList;
 import com.eflexsoft.liked.model.User;
 import com.eflexsoft.liked.viewholder.DiscoverUserViewHolder;
@@ -52,21 +55,25 @@ import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout;
 
 public class DiscoverFragment extends Fragment {
 
-    RecyclerView recyclerView;
+//    RecyclerView recyclerView;
     DiscoverViewModel viewModel;
     DiscoverAdapter adapter;
-    ProgressBar bar;
+//    ProgressBar bar;
     int initialPageSize;
     int pageCount;
     int visibleItemCount;
     List<User> userArrayList = new ArrayList<>();
     String myGender;
-
+    FragmentDiscoverBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_discover, container, false);
+//        View view = inflater.inflate(R.layout.fragment_discover, container, false);
+
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_discover,container,false);
+
+        initRecycleView();
 
         Query chatQuery = FirebaseDatabase.getInstance().getReference("ChatId").child(FirebaseAuth.getInstance().getUid());
 
@@ -92,56 +99,25 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
+        binding.reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.proBar.setVisibility(View.VISIBLE);
+                initRecycleView();
+            }
+        });
 
-        recyclerView = view.findViewById(R.id.discover_recycler);
-        bar = view.findViewById(R.id.imageIsLoading);
-        Sprite sprite = new DoubleBounce();
-        bar.setIndeterminateDrawable(sprite);
+//        ZoomRecyclerLayout zoomRecyclerLayout = new ZoomRecyclerLayout(getContext(), ZoomRecyclerLayout.VERTICAL, false);
 
-        ZoomRecyclerLayout zoomRecyclerLayout = new ZoomRecyclerLayout(getContext(), ZoomRecyclerLayout.VERTICAL, false);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(zoomRecyclerLayout);
+
 
         SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+        snapHelper.attachToRecyclerView(binding.discoverRecycler);
 
 
 //        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("id").startAt(afterId).limitToFirst(5);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                bar.setVisibility(View.GONE);
-                User fuser = snapshot.getValue(User.class);
-                myGender = fuser.getGender();
-
-                PagedList.Config config = new PagedList.Config.Builder()
-                        .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(10)
-                        .setPageSize(10)
-                        .setPrefetchDistance(5)
-                        .build();
-
-                Query query = FirebaseDatabase.getInstance().getReference("Users");//.equalTo("Female","gender");//.equalTo(myGender, "gender").orderByChild("id");
-
-                DatabasePagingOptions<User> pagingOptions = new DatabasePagingOptions.Builder<User>()
-                        .setQuery(query, config, User.class)
-                        .setLifecycleOwner(getActivity())
-                        .build();
-
-                adapter = new DiscoverAdapter(pagingOptions, getContext(), myGender);
-                recyclerView.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 //        recyclerView.setVisibility(View.GONE);
@@ -188,6 +164,17 @@ public class DiscoverFragment extends Fragment {
                 adapter.addMoreUserLoad(userList);
                 userArrayList.addAll(userList);
 //                Toast.makeText(getContext(), " scroll down or ignore", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        viewModel.getIsPageLoadedMutableLiveData().observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    binding.proBar.setVisibility(View.GONE);
+                }else {
+                    binding.proBar.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -266,6 +253,51 @@ public class DiscoverFragment extends Fragment {
 //                return new DiscoverUserViewHolder(view1);
 //            }
 //        };
-        return view;
+        return binding.getRoot();
     }
+
+    private void initRecycleView(){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        binding.discoverRecycler.setHasFixedSize(true);
+        binding.discoverRecycler.setLayoutManager(gridLayoutManager);
+
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
+                User fuser = snapshot.getValue(User.class);
+                myGender = fuser.getGender();
+
+                PagedList.Config config = new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(10)
+                        .setPageSize(10)
+                        .setPrefetchDistance(5)
+                        .build();
+
+                Query query = FirebaseDatabase.getInstance().getReference("Users");//.equalTo("Female","gender");//.equalTo(myGender, "gender").orderByChild("id");
+
+                DatabasePagingOptions<User> pagingOptions = new DatabasePagingOptions.Builder<User>()
+                        .setQuery(query, config, User.class)
+                        .setLifecycleOwner(getActivity())
+                        .build();
+
+                adapter = new DiscoverAdapter(pagingOptions, getContext(), myGender);
+                binding.discoverRecycler.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

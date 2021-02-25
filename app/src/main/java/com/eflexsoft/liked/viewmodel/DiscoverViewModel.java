@@ -26,6 +26,9 @@ public class DiscoverViewModel extends AndroidViewModel {
     public MutableLiveData<List<User>> nextLoadMutableLiveData = new MutableLiveData<>();
     public MutableLiveData<Boolean> isPageAtLastMutableLiveData = new MutableLiveData<>();
 
+    public MutableLiveData<Boolean> isPageLoadedMutableLiveData = new MutableLiveData<>();
+
+
     DiscoverRepository repository;
 
     public DiscoverViewModel(@NonNull Application application) {
@@ -63,5 +66,9 @@ public class DiscoverViewModel extends AndroidViewModel {
 
         repository.sendHiMessage(senderId, receiverId, chatId);
 
+    }
+
+    public LiveData<Boolean> getIsPageLoadedMutableLiveData() {
+        return isPageLoadedMutableLiveData;
     }
 }
