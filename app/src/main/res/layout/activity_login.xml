@@ -39,14 +39,13 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/tap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/sing_email"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="150dp"
         android:fontFamily="monospace"
         android:text="Tap to start dating"
         android:textColor="#fff"

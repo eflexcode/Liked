@@ -27,7 +27,8 @@
                 android:gravity="center"
                 android:text="Create your profile"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="25dp"
+                android:fontFamily="cursive"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -90,8 +91,7 @@
                     android:layout_below="@id/pro_pic_me"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="Talk a bit about your self"
-                    android:textColor="#000" />
+                    android:text="Talk a bit about your self" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/about_layout"
@@ -126,9 +126,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
-                    android:textStyle="bold"
                     android:text="Add your display images"
-                    android:textColor="#000" />
+                    android:textStyle="bold" />
 
                 <HorizontalScrollView
                     android:id="@+id/dis"
@@ -288,8 +287,8 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/login_btn_background4"
-                    android:text="Publish"
                     android:onClick="PublishProfile"
+                    android:text="Publish"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"

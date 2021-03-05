@@ -18,6 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ImageFullViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullImage" />
+        <activity
+            android:name=".UserDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/detail" />
+        <activity
             android:name=".signup.CreateProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/withTheme" />
@@ -73,7 +81,7 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/mainAcTheme" />
+            android:theme="@style/splashTheme" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"

@@ -40,6 +40,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
 
@@ -92,7 +94,7 @@ public class LoginRepository {
 
                     if (isUserNew) {
 
-                        Toast.makeText(context, "You area new user please create an account", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "You are a new user please create an account", Toast.LENGTH_LONG).show();
 
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -120,6 +122,10 @@ public class LoginRepository {
 
     public void loginCredential(AuthCredential authCredential, int age, String gender, LoginActivity loginActivity) {
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        DocumentReference documentReference = FirebaseFirestore.getInstance()
+                .collection("Users")
+                .document(firebaseAuth.getUid());
 
         viewModel = new ViewModelProvider(loginActivity).get(LoginViewModel.class);
 
@@ -150,12 +156,12 @@ public class LoginRepository {
                         map.put("age", String.valueOf(age));
                         map.put("email", email);
                         map.put("profilePictureUrl", imageUrl);
-                        map.put("displayImage1", "no image");
-                        map.put("displayImage2", "no image");
-                        map.put("displayImage3", "no image");
+//                        map.put("displayImage1", "no image");
+//                        map.put("displayImage2", "no image");
+//                        map.put("displayImage3", "no image");
 //                        User user = new User(id, name, "", gender, "No age", "No about yet", email, imageUrl, "No phone number yet", "yes", "no image", "no image", "no image");
-                        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-                        databaseReference.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+                        documentReference.set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
@@ -384,7 +390,7 @@ public class LoginRepository {
 //                                    User user = new User(id,name,"",gender,"No age","No about yet",email,profilePic,"No phone number yet","yes","no image","no image","no image");
 
                                 } catch (Exception e) {
-                                    Toast.makeText(loginActivity, "eeeeeeeeeeeeeeeeeeeee " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(loginActivity, "" + e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -412,13 +418,15 @@ public class LoginRepository {
     public void updateMyLocation(double longitude, double latitude) {
 
         String id = FirebaseAuth.getInstance().getUid();
-
+        DocumentReference documentReference = FirebaseFirestore.getInstance()
+                .collection("Users")
+                .document(id);
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("longitude", longitude);
         map.put("latitude", latitude);
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-        databaseReference.child(id).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        documentReference.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Intent intent = new Intent(context, MainActivity.class);

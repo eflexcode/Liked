@@ -2,10 +2,14 @@ package com.eflexsoft.liked.adapter;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
@@ -32,6 +39,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.eflexsoft.liked.R;
+import com.eflexsoft.liked.UserDetailActivity;
 import com.eflexsoft.liked.databinding.DicoverItemLayoutBinding;
 import com.eflexsoft.liked.databinding.FindLoveItemBinding;
 import com.eflexsoft.liked.model.MessageList;
@@ -41,7 +49,9 @@ import com.eflexsoft.liked.viewholder.FindLoveUserViewHolder;
 import com.eflexsoft.liked.viewmodel.DiscoverViewModel;
 import com.firebase.ui.database.paging.DatabasePagingOptions;
 import com.firebase.ui.database.paging.FirebaseRecyclerPagingAdapter;
-import com.firebase.ui.database.paging.LoadingState;
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,13 +59,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
-public class DiscoverAdapter extends FirebaseRecyclerPagingAdapter<User, FindLoveUserViewHolder> {
+import static com.firebase.ui.firestore.paging.LoadingState.LOADING_INITIAL;
+
+public class DiscoverAdapter extends FirestorePagingAdapter<User, FindLoveUserViewHolder> {
 
     //    List<User> userList = new ArrayList<>();
     Context context;
@@ -75,17 +100,22 @@ public class DiscoverAdapter extends FirebaseRecyclerPagingAdapter<User, FindLov
     int duration = 500;
     private boolean on_attach = true;
 
+    double lon;
+    double lat;
+    private static final String TAG = "DiscoverAdapter";
+
     /**
-     * Construct a new FirestorePagingAdapter from the given {@link DatabasePagingOptions}.
+     * Construct a new FirestorePagingAdapter from the given {@link FirestorePagingOptions}.
      *
      * @param options
      */
-    public DiscoverAdapter(@NonNull DatabasePagingOptions options, Context context, String myGender) {
+    public DiscoverAdapter(@NonNull FirestorePagingOptions<User> options, Context context, String myGender, double lon, double lat) {
         super(options);
         this.context = context;
         this.myGender = myGender;
+        this.lon = lon;
+        this.lat = lat;
     }
-
 
     @NonNull
     @Override
@@ -97,141 +127,6 @@ public class DiscoverAdapter extends FirebaseRecyclerPagingAdapter<User, FindLov
 
         return new FindLoveUserViewHolder(binding);
     }
-
-//    @Override
-//    public void onBindViewHolder(@NonNull DiscoverUserViewHolder holder, int position) {
-//
-//        User user = userList.get(position);
-//
-//        viewModel = ViewModelProviders.of((FragmentActivity) context).get(DiscoverViewModel.class);
-//
-//        holder.name.setText(user.getName() + " ");
-//        holder.about.setText(user.getAbout());
-//        holder.age.setText(user.getAge());
-//        holder.address.setText(user.getAddress());
-//
-//        RequestOptions requestOptions = new RequestOptions();
-//        requestOptions.error(R.drawable.no_p);
-//        requestOptions.placeholder(R.drawable.no_p);
-//
-//        Glide.with(context).load(user.getProfilePictureUrl())
-//                .apply(requestOptions)
-//                .addListener(new RequestListener<Drawable>() {
-//                    @Override
-//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                        holder.progressBar.setVisibility(View.GONE);
-//                        return false;
-//
-//                    }
-//
-//                    @Override
-//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                        holder.progressBar.setVisibility(View.GONE);
-//                        return false;
-//                    }
-//                }).into(holder.proPic);
-//
-//        if (user.isLiked()){
-//            holder.heart_count.setVisibility(View.VISIBLE);
-//        }
-//
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickCount = clickCount + 1;
-//                if (clickCount == 2) {
-//                    clickCount = 0;
-//                    if (holder.heart_count.getVisibility() != View.VISIBLE) {
-//                        holder.heart.setVisibility(View.VISIBLE);
-//                        holder.heart.animate().scaleY(1.5f).scaleX(1.5f).setDuration(450);
-//                        Handler handler = new Handler();
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                holder.heart.animate().scaleY(0f).scaleX(0f).setDuration(450);
-//                            }
-//                        }, 600);
-//
-////                    holder.heart.setVisibility(View.GONE);
-//                      user.setLiked(true);
-//                      notifyItemChanged(position);
-//
-//                        Query query = FirebaseDatabase.getInstance().getReference("ChatId").child(FirebaseAuth.getInstance().getUid()).child(user.getId());
-//
-//                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                                MessageList messageList = snapshot.getValue(MessageList.class);
-//
-//                                if (snapshot.exists()) {
-//
-//                                    viewModel.sendHiMessage(FirebaseAuth.getInstance().getUid(), user.getId(), messageList.getChatId());
-//                                } else {
-//                                    viewModel.sendHiMessage(FirebaseAuth.getInstance().getUid(), user.getId(), user.getId() + FirebaseAuth.getInstance().getUid());
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//
-//                            }
-//                        });
-//
-//                        Toast.makeText(context, "love message sent", Toast.LENGTH_SHORT).show();
-//
-//
-//                    }
-//                }
-//            }
-//        });
-//    }
-
-    public void addUserFistLoad(List<User> users) {
-
-//        userList = users;
-
-
-    }
-
-//    public void addMoreUserLoad(String afterId, String myGender) {
-//        int position = userList.size() - 1;
-//
-//        Set<User> userSet = new LinkedHashSet<>(userList);
-//        userSet.addAll(users);
-//        userList.clear();
-//        userList.addAll(userSet);
-//
-//        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("id").startAt(afterId).limitToFirst(5);
-//
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    User user = dataSnapshot.getValue(User.class);
-//                    if (!user.getGender().equals(myGender)) {
-//                        userList.add(user);
-//                    }
-//                    notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-//        notifyDataSetChanged();
-//    }
-
-    public void addMoreUserLoad(List<User> users) {
-
-//        this.userList  = users;
-//        notifyDataSetChanged();
-
-    }
-
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -249,19 +144,37 @@ public class DiscoverAdapter extends FirebaseRecyclerPagingAdapter<User, FindLov
 
     @Override
     protected void onBindViewHolder(@NonNull FindLoveUserViewHolder viewHolder, int position, @NonNull User model) {
-
+//        if (model.getGender().equals(myGender)){
+//            viewHolder.itemView.setVisibility(View.GONE);
+//        }
+//        Toast.makeText(context, myGender, Toast.LENGTH_SHORT).show();
         viewModel = ViewModelProviders.of((FragmentActivity) context).get(DiscoverViewModel.class);
+
+        String myId = FirebaseAuth.getInstance().getUid();
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference myReference = firebaseFirestore.collection("Users")
+                .document(myId).collection("Likes").document(model.getId());
+
+        myReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.exists()) {
+
+
+                } else {
+//                    viewHolder.itemView.setVisibility(View.VISIBLE);
+//                    notifyItemChanged(position);
+                }
+            }
+        });
 
         viewHolder.binding.age.setText(model.getAge());
         viewHolder.binding.name.setText(model.getName());
 
         setAnimation(viewHolder.itemView, position);
 
-////        holder.name.setText(user.getName() + " ");
-////        holder.about.setText(user.getAbout());
-////        holder.age.setText(user.getAge());
-////        holder.address.setText(user.getAddress());
-//
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(R.drawable.no_p);
         requestOptions.placeholder(R.drawable.no_p);
@@ -269,18 +182,7 @@ public class DiscoverAdapter extends FirebaseRecyclerPagingAdapter<User, FindLov
         RequestOptions requestOptionsDis = new RequestOptions();
         requestOptionsDis.error(R.drawable.no_p);
         requestOptionsDis.placeholder(R.color.grey);
-//        viewHolder.binding.setUser(model);
-//        if (model.getGender().equals(myGender)) {
-//            viewHolder.itemView.setVisibility(View.GONE);
-//
-//            ViewGroup.LayoutParams layoutParams = viewHolder.binding.c.getLayoutParams();
-//            layoutParams.height = 0;
-//            layoutParams.width = 0;
-//            viewHolder.binding.c.setLayoutParams(layoutParams);
-//        }
-//
-////        Toast.makeText(context, myGender, Toast.LENGTH_SHORT).show();
-//
+
         Glide.with(context).load(model.getProfilePictureUrl())
                 .apply(requestOptions)
                 .addListener(new RequestListener<Drawable>() {
@@ -337,69 +239,157 @@ public class DiscoverAdapter extends FirebaseRecyclerPagingAdapter<User, FindLov
             }
         } catch (Exception e) {
 
+
         }
 
+        Location myLocation = new Location("LocationA");
+        myLocation.setLatitude(lat);
+        myLocation.setLongitude(lon);
 
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickCount = clickCount + 1;
-//                if (clickCount == 2) {
-//                    clickCount = 0;
-//                    if (viewHolder.binding.heartImageCount.getVisibility() != View.VISIBLE) {
-//                        viewHolder.binding.heartImage.setVisibility(View.VISIBLE);
-//                        viewHolder.binding.heartImage.animate().scaleY(1.5f).scaleX(1.5f).setDuration(450);
-//                        Handler handler = new Handler();
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                viewHolder.binding.heartImage.animate().scaleY(0f).scaleX(0f).setDuration(450);
-//                            }
-//                        }, 600);
-//
-////                    holder.heart.setVisibility(View.GONE);
-//                        model.setLiked(true);
-//                        notifyItemChanged(position);
-//
-//                        Query query = FirebaseDatabase.getInstance().getReference("ChatId").child(FirebaseAuth.getInstance().getUid()).child(model.getId());
-//
-//                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                                MessageList messageList = snapshot.getValue(MessageList.class);
-//
-//                                if (snapshot.exists()) {
-//
-//                                    viewModel.sendHiMessage(FirebaseAuth.getInstance().getUid(), model.getId(), messageList.getChatId());
-//                                } else {
-//                                    viewModel.sendHiMessage(FirebaseAuth.getInstance().getUid(), model.getId(), model.getId() + FirebaseAuth.getInstance().getUid());
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//
-//                            }
-//                        });
-//
-//                        Toast.makeText(context, "Love message sent", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                }
-//            }
-//        });
+        Location otherUserLocation = new Location("LocationB");
+        otherUserLocation.setLongitude(model.getLongitude());
+        otherUserLocation.setLatitude(model.getLatitude());
+
+        double distance = myLocation.distanceTo(otherUserLocation);
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        decimalFormat.setRoundingMode(RoundingMode.CEILING);
+
+        String thelocation = decimalFormat.format(distance * 0.000621371192) + " mi";
+
+        viewHolder.binding.location.setText(thelocation);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, UserDetailActivity.class);
+                intent.putExtra("id", model.getId());
+                intent.putExtra("name", model.getName());
+                intent.putExtra("age", model.getAge());
+                intent.putExtra("about", model.getAbout());
+                intent.putExtra("profileImageUrl", model.getProfilePictureUrl());
+                intent.putExtra("isOnline", model.getIsOnline());
+                intent.putExtra("location", thelocation);
+                intent.putExtra("dis1", model.getDisplayImage1());
+                intent.putExtra("dis2", model.getDisplayImage2());
+                intent.putExtra("dis3", model.getDisplayImage3());
+
+                Pair<View, String> pair = Pair.create(viewHolder.binding.userDisPic1, viewHolder.binding.userDisPic1.getTransitionName());
+
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, pair);
+
+                context.startActivity(intent, activityOptionsCompat.toBundle());
+//                ((FragmentActivity) context).overridePendingTransition(android.R.anim.bounce_interpolator,android.R.anim.bounce_interpolator);
+
+
+            }
+        });
+
+        List<String> love = new ArrayList<>();
+        love.add("I have always thought that a person can experience happiness once in a lifetime, but with you, I realized that happiness for me is every minute, every second, every day that I spend with you.");
+        love.add("With you, I realized what it means to live life to the fullest and to enjoy every breath");
+        love.add("When I’m with you, the only thing I want to do is to hold you tight, keep you warm and never let you go!");
+        love.add("Meeting you was fate, becoming your friend was a choice, but falling in love with you was beyond my control.");
+        love.add("They say love hurts, but I’m ready to take that risk if I’m going to be with you.");
+        love.add("I love seeing you happy and my biggest reward is seeing you smile.");
+        love.add("They say you only fall in love once, but every time I look at you, I fall in love all over again.");
+        love.add("I’m having one of those days that make me realize how lost I’d be without you.");
+        love.add("Words aren’t enough to tell you how wonderful you are. I love you.");
+        love.add(" I love you, As I have never loved another or ever will again, I love you with all that I am, and all that I will ever be.");
+        love.add("You deserve all of me. You deserve my morning, night and noon. You deserve my present and future.");
+        love.add("Just when I thought of giving up to the fate that true love doesn’t exist, you came and showed me the best of it.");
+        love.add("My gratitude for having met you is surpassed only by my amazement at the joy you bring to my life.");
+        love.add(" No matter what, you will always be my lady, my life, my everything.");
+        love.add("Our relationship is the best thing that’s ever happened to me. I love everything about you, inside and out.");
+
+        viewHolder.binding.starButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                String myId = FirebaseAuth.getInstance().getUid();
+                String otherUserId = model.getId();
+
+                String messageId = String.valueOf(System.currentTimeMillis());
+
+                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+                DocumentReference myReference = firebaseFirestore.collection("Users")
+                        .document(myId).collection("Likes").document(otherUserId);
+
+                Map<String, String> myMap = new HashMap<>();
+                myMap.put("userId", otherUserId);
+                myMap.put("messageId", messageId);
+
+                myReference.set(myMap);
+
+                DocumentReference otherReference = firebaseFirestore.collection("Users")
+                        .document(otherUserId).collection("Likes").document(myId);
+
+                Map<String, String> otherMap = new HashMap<>();
+                otherMap.put("userId", myId);
+                otherMap.put("messageId", messageId);
+
+                otherReference.set(otherMap);
+
+                CollectionReference message = firebaseFirestore.collection("Messages").document(messageId).collection(messageId);
+
+                long i = System.currentTimeMillis();
+
+                String chatId = String.valueOf(i);
+
+                Map<String, Object> messageMap = new HashMap<>();
+                messageMap.put("firstId", myId);
+                messageMap.put("secondId", otherUserId);
+                messageMap.put("message", love.get(new Random().nextInt(14)));
+                messageMap.put("imageUrl", "no image");
+                messageMap.put("videoUrl", "no video");
+                messageMap.put("chatId", i);
+
+                message.document(chatId).set(messageMap);
+
+                Handler handler = new Handler();
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        viewHolder.itemView.setVisibility(View.GONE);
+//                        notifyItemRemoved(position);
+                    }
+                }, 10000);
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                String myId = FirebaseAuth.getInstance().getUid();
+                String otherUserId = model.getId();
+
+                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+                DocumentReference myReference = firebaseFirestore.collection("Users")
+                        .document(myId).collection("Likes").document(otherUserId);
+
+                DocumentReference otherReference = firebaseFirestore.collection("Users")
+                        .document(otherUserId).collection("Likes").document(myId);
+
+                myReference.delete();
+                otherReference.delete();
+
+            }
+        });
+
     }
 
     @Override
     protected void onLoadingStateChanged(@NonNull LoadingState state) {
+        super.onLoadingStateChanged(state);
         viewModel = ViewModelProviders.of((FragmentActivity) context).get(DiscoverViewModel.class);
-        if (state == LoadingState.LOADING_INITIAL) {
+        if (state == LOADING_INITIAL) {
             viewModel.isPageLoadedMutableLiveData.setValue(true);
+
         }
-
     }
-
 
     private void setAnimation(View viewToAnimate, int position) {
         if (!on_attach) {

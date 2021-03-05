@@ -18,7 +18,7 @@ public class User {
     private String displayImage2;
     private String displayImage3;
 
-    private long  timeStamp;
+    private long timeStamp;
 
     // for liking
     private boolean isLiked;

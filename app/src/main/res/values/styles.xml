@@ -18,6 +18,33 @@
         <!--        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>-->
     </style>
 
+    <style name="detail" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+<!--        <item name="android:windowAnimationStyle">@style/bounce</item>-->
+    </style>
+
+    <style name="bounce">
+        <item name="android:activityOpenEnterAnimation">@anim/bounce</item>
+
+<!--        <item name="android:windowEnterTransition">@transition/explode</item>-->
+<!--        <item name="android:windowExitTransition">@transition/explode</item>-->
+
+    </style>
+
+    <style name="FullImage" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/colorAccent</item>
+<!--        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>-->
+    </style>
+
+
     <style name="loginTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

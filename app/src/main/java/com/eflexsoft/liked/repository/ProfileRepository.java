@@ -7,6 +7,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.eflexsoft.liked.model.User;
@@ -20,6 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -39,21 +45,14 @@ public class ProfileRepository {
     }
 
     public void getUserProfileDetails() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DocumentReference documentReference = firebaseFirestore.collection("Users").document(FirebaseAuth.getInstance().getUid());
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                User user = snapshot.getValue(User.class);
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                User user = value.toObject(User.class);
                 userMutableLiveData.setValue(user);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -174,13 +173,21 @@ public class ProfileRepository {
     }
 
     public void setIsOnline(String status){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//
         Map<String,Object> map = new HashMap<>();
         map.put("isOnline",status);
+//
+//        databaseReference.updateChildren(map);
 
-        databaseReference.updateChildren(map);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        DocumentReference documentReference = FirebaseFirestore.getInstance()
+                .collection("Users")
+                .document(firebaseAuth.getUid());
+
+        documentReference.update(map);
+
     }
 
 

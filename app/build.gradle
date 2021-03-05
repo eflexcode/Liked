@@ -39,9 +39,9 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation 'com.google.firebase:firebase-auth:20.0.2'
     implementation 'com.google.firebase:firebase-database:19.6.0'
-    implementation 'com.google.firebase:firebase-firestore:22.0.1'
+    implementation 'com.google.firebase:firebase-firestore:22.1.0'
     implementation 'com.google.firebase:firebase-storage:19.2.1'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
 //    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.1'
@@ -109,4 +109,14 @@ dependencies {
     implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
 
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+
+    compile 'com.github.stfalcon:multiimageview:0.1'
+
+    implementation 'com.github.AgnaldoNP:PreviewImageCollection:1.2'
+
 }

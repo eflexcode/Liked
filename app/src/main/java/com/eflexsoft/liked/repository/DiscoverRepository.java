@@ -89,7 +89,12 @@ public class DiscoverRepository {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         User fuser = snapshot.getValue(User.class);
-                        myGender = fuser.getGender();
+                        try {
+                            myGender = fuser.getGender();
+                        }catch (Exception e){
+
+                        }
+
 
                         query.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

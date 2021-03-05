@@ -43,23 +43,23 @@ public class MainActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {
-                    startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (!snapshot.exists()) {
+//                    startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 //        if (savedInstanceState == null) {
 //            getSupportFragmentManager().beginTransaction().replace(R.id.frag_frame, new DiscoverFragment()).commit();
