@@ -81,6 +81,12 @@ public class ProfileFragment extends Fragment {
     String dis1Url;
     String dis2Url;
     String dis3Url;
+    String name;
+    String about;
+    String gender;
+    int age;
+    String profilePictureUrl;
+    String location;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,16 +95,12 @@ public class ProfileFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
-//        binding.imageCollectionView.addImage(R.drawable.no_p);
-//        binding.imageCollectionView.addImage(R.drawable.no_p);
-//        binding.imageCollectionView.addImage(R.drawable.no_p);
-
-//binding.iv.a
-
 //        progressDialog = new ProgressDialog(getContext());
 //        progressDialog.setMessage("Uploading");
 //        progressDialog.setCancelable(false);
+
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
+
 
 //        editProfileFloatingActionButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -175,6 +177,15 @@ public class ProfileFragment extends Fragment {
                     dis2Url = user.getDisplayImage2();
                     dis3Url = user.getDisplayImage3();
 
+                    name = user.getName();
+                    about = user.getAbout();
+                    gender = user.getGender();
+                    age = Integer.parseInt(user.getAge());
+
+                    profilePictureUrl = user.getProfilePictureUrl();
+
+
+
                     Glide.with(getActivity()).load(user.getProfilePictureUrl())
                             .apply(requestOptions)
                             .into(binding.proPicMe);
@@ -207,12 +218,9 @@ public class ProfileFragment extends Fragment {
                             .apply(requestOptions)
                             .into(binding.displayImage3);
 
-////                    nameId = user.getName();
-//
                     binding.about.setText(user.getAbout());
                     binding.age.setText(String.valueOf(user.getAge()));
                     binding.name.setText(user.getName().trim() + ",");
-
 
                     if (user.getIsOnline().equals("yes")) {
                         binding.online.setChecked(true);
@@ -295,6 +303,21 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
+        binding.proPicMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(), ImageFullViewActivity.class);
+                intent.putExtra("url", profilePictureUrl);
+
+                Pair<View, String> pair = Pair.create(binding.displayImage1, binding.proPicMe.getTransitionName());
+
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pair);
+                startActivity(intent, activityOptionsCompat.toBundle());
+            }
+        });
+
         binding.displayImage1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -328,7 +351,30 @@ public class ProfileFragment extends Fragment {
         binding.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(getContext(),v);
+                PopupMenu popupMenu = new PopupMenu(getContext(), v);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        if (item.getItemId() == R.id.edit) {
+
+                            Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                            intent.putExtra("name", name);
+                            intent.putExtra("age", age);
+                            intent.putExtra("about", about);
+                            intent.putExtra("dis1", dis1Url);
+                            intent.putExtra("gender",gender);
+                            intent.putExtra("location",binding.location.getText().toString());
+                            intent.putExtra("dis2", dis2Url);
+                            intent.putExtra("dis3", dis3Url);
+                            intent.putExtra("profileImageUrl", profilePictureUrl);
+                            startActivity(intent);
+
+                        }
+
+                        return true;
+                    }
+                });
                 popupMenu.inflate(R.menu.more);
                 popupMenu.show();
             }
@@ -419,7 +465,13 @@ public class ProfileFragment extends Fragment {
 
 
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Unable to get user location", Toast.LENGTH_SHORT).show();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), "Unable to get user location", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
         handler.post(new Runnable() {

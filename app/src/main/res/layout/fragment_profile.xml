@@ -66,6 +66,7 @@
                     android:id="@+id/pro_pic_me"
                     android:layout_width="170dp"
                     android:layout_height="120dp"
+                    android:transitionName="v"
                     android:layout_below="@id/back"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="-50dp"
@@ -239,25 +240,25 @@
                                 android:src="@color/grey"
                                 android:transitionName="v" />
 
-                            <RelativeLayout
-                                android:id="@+id/display_image1_change"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_alignEnd="@id/pro_pic_me"
-                                android:layout_alignBottom="@id/pro_pic_me"
-                                android:layout_gravity="end"
-                                android:layout_margin="10dp"
-                                android:alpha="0.5"
-                                android:background="@drawable/cirlce_bk2">
+<!--                            <RelativeLayout-->
+<!--                                android:id="@+id/display_image1_change"-->
+<!--                                android:layout_width="35dp"-->
+<!--                                android:layout_height="35dp"-->
+<!--                                android:layout_alignEnd="@id/pro_pic_me"-->
+<!--                                android:layout_alignBottom="@id/pro_pic_me"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:layout_margin="10dp"-->
+<!--                                android:alpha="0.5"-->
+<!--                                android:background="@drawable/cirlce_bk2">-->
 
-                                <ImageButton
-                                    android:layout_width="15dp"
-                                    android:layout_height="20dp"
-                                    android:layout_centerInParent="true"
-                                    android:background="@android:color/transparent"
-                                    android:scaleType="centerInside"
-                                    android:src="@drawable/ic_camera_to_take_photos" />
-                            </RelativeLayout>
+<!--                                <ImageButton-->
+<!--                                    android:layout_width="15dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:layout_centerInParent="true"-->
+<!--                                    android:background="@android:color/transparent"-->
+<!--                                    android:scaleType="centerInside"-->
+<!--                                    android:src="@drawable/ic_camera_to_take_photos" />-->
+<!--                            </RelativeLayout>-->
                         </androidx.cardview.widget.CardView>
 
 
@@ -278,25 +279,25 @@
                                 android:src="@color/grey"
                                 android:transitionName="v" />
 
-                            <RelativeLayout
-                                android:id="@+id/display_image2_change"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_alignEnd="@id/pro_pic_me"
-                                android:layout_alignBottom="@id/pro_pic_me"
-                                android:layout_gravity="end"
-                                android:layout_margin="10dp"
-                                android:alpha="0.5"
-                                android:background="@drawable/cirlce_bk2">
+<!--                            <RelativeLayout-->
+<!--                                android:id="@+id/display_image2_change"-->
+<!--                                android:layout_width="35dp"-->
+<!--                                android:layout_height="35dp"-->
+<!--                                android:layout_alignEnd="@id/pro_pic_me"-->
+<!--                                android:layout_alignBottom="@id/pro_pic_me"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:layout_margin="10dp"-->
+<!--                                android:alpha="0.5"-->
+<!--                                android:background="@drawable/cirlce_bk2">-->
 
-                                <ImageButton
-                                    android:layout_width="15dp"
-                                    android:layout_height="20dp"
-                                    android:layout_centerInParent="true"
-                                    android:background="@android:color/transparent"
-                                    android:scaleType="centerInside"
-                                    android:src="@drawable/ic_camera_to_take_photos" />
-                            </RelativeLayout>
+<!--                                <ImageButton-->
+<!--                                    android:layout_width="15dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:layout_centerInParent="true"-->
+<!--                                    android:background="@android:color/transparent"-->
+<!--                                    android:scaleType="centerInside"-->
+<!--                                    android:src="@drawable/ic_camera_to_take_photos" />-->
+<!--                            </RelativeLayout>-->
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
@@ -316,25 +317,25 @@
                                 android:src="@color/grey"
                                 android:transitionName="v" />
 
-                            <RelativeLayout
-                                android:id="@+id/display_image3_change"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_alignEnd="@id/pro_pic_me"
-                                android:layout_alignBottom="@id/pro_pic_me"
-                                android:layout_gravity="end"
-                                android:layout_margin="10dp"
-                                android:alpha="0.5"
-                                android:background="@drawable/cirlce_bk2">
+<!--                            <RelativeLayout-->
+<!--                                android:id="@+id/display_image3_change"-->
+<!--                                android:layout_width="35dp"-->
+<!--                                android:layout_height="35dp"-->
+<!--                                android:layout_alignEnd="@id/pro_pic_me"-->
+<!--                                android:layout_alignBottom="@id/pro_pic_me"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:layout_margin="10dp"-->
+<!--                                android:alpha="0.5"-->
+<!--                                android:background="@drawable/cirlce_bk2">-->
 
-                                <ImageButton
-                                    android:layout_width="15dp"
-                                    android:layout_height="20dp"
-                                    android:layout_centerInParent="true"
-                                    android:background="@android:color/transparent"
-                                    android:scaleType="centerInside"
-                                    android:src="@drawable/ic_camera_to_take_photos" />
-                            </RelativeLayout>
+<!--                                <ImageButton-->
+<!--                                    android:layout_width="15dp"-->
+<!--                                    android:layout_height="20dp"-->
+<!--                                    android:layout_centerInParent="true"-->
+<!--                                    android:background="@android:color/transparent"-->
+<!--                                    android:scaleType="centerInside"-->
+<!--                                    android:src="@drawable/ic_camera_to_take_photos" />-->
+<!--                            </RelativeLayout>-->
                         </androidx.cardview.widget.CardView>
 
                     </LinearLayout>

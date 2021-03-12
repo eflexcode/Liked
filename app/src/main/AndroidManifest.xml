@@ -44,20 +44,25 @@
             android:name=".signup.AgeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SlideTheme" />
+
         <activity
             android:name=".signup.EmailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SlideTheme" />
+
         <activity
             android:name=".signup.NameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/withTheme" />
         <activity android:name=".LoginEmailActivity" />
+
         <activity
             android:name=".EditProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/withTheme" />
+            android:theme="@style/material"/>
+
         <activity android:name=".MessageActivity" />
+
         <activity
             android:name=".LoginNumActivity"
             android:screenOrientation="portrait"
