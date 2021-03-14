@@ -75,7 +75,7 @@
                     app:civ_border_width="2dp" />
 
                 <RelativeLayout
-                    android:id="@+id/chande_pro_pic"
+                    android:id="@+id/change_pro_pic"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_alignEnd="@id/pro_pic_me"

@@ -187,7 +187,6 @@ public class LoginRepository {
                         booleanMutableLiveData.setValue(false);
                     }
 
-
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

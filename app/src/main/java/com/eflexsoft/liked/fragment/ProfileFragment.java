@@ -1,19 +1,25 @@
 package com.eflexsoft.liked.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
@@ -35,6 +41,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,9 +56,11 @@ import com.eflexsoft.liked.EditProfileActivity;
 import com.eflexsoft.liked.ImageFullViewActivity;
 import com.eflexsoft.liked.LoginActivity;
 import com.eflexsoft.liked.R;
+import com.eflexsoft.liked.SplashActivity;
 import com.eflexsoft.liked.databinding.FragmentProfileBinding;
 import com.eflexsoft.liked.model.User;
 import com.eflexsoft.liked.viewmodel.ProfileViewModel;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,6 +97,11 @@ public class ProfileFragment extends Fragment {
     String profilePictureUrl;
     String location;
 
+    int galleryProfile = 45;
+    Uri profileUri;
+    ImageView uploadImageView;
+    Dialog dialogUpload;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,9 +109,9 @@ public class ProfileFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
-//        progressDialog = new ProgressDialog(getContext());
-//        progressDialog.setMessage("Uploading");
-//        progressDialog.setCancelable(false);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Uploading");
+        progressDialog.setCancelable(false);
 
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
 
@@ -184,51 +198,52 @@ public class ProfileFragment extends Fragment {
 
                     profilePictureUrl = user.getProfilePictureUrl();
 
+                    try {
 
 
-                    Glide.with(getActivity()).load(user.getProfilePictureUrl())
-                            .apply(requestOptions)
-                            .into(binding.proPicMe);
+                        Glide.with(getContext()).load(user.getProfilePictureUrl())
+                                .apply(requestOptions)
+                                .into(binding.proPicMe);
 
-                    RequestOptions requestOptions = new RequestOptions();
-                    requestOptions.error(R.color.grey);
-                    requestOptions.placeholder(R.color.grey);
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.error(R.color.grey);
+                        requestOptions.placeholder(R.color.grey);
 
-                    Glide.with(getActivity()).load(user.getDisplayImage1())
-                            .apply(requestOptions)
-                            .into(binding.dis1);
+                        Glide.with(getActivity()).load(user.getDisplayImage1())
+                                .apply(requestOptions)
+                                .into(binding.dis1);
 
-                    Glide.with(getActivity()).load(user.getDisplayImage2())
-                            .apply(requestOptions)
-                            .into(binding.dis2);
+                        Glide.with(getActivity()).load(user.getDisplayImage2())
+                                .apply(requestOptions)
+                                .into(binding.dis2);
 
-                    Glide.with(getActivity()).load(user.getDisplayImage3())
-                            .apply(requestOptions)
-                            .into(binding.dis3);
+                        Glide.with(getActivity()).load(user.getDisplayImage3())
+                                .apply(requestOptions)
+                                .into(binding.dis3);
 
-                    Glide.with(getActivity()).load(user.getDisplayImage1())
-                            .apply(requestOptions)
-                            .into(binding.displayImage1);
+                        Glide.with(getActivity()).load(user.getDisplayImage1())
+                                .apply(requestOptions)
+                                .into(binding.displayImage1);
 
-                    Glide.with(getActivity()).load(user.getDisplayImage2())
-                            .apply(requestOptions)
-                            .into(binding.displayImage2);
+                        Glide.with(getActivity()).load(user.getDisplayImage2())
+                                .apply(requestOptions)
+                                .into(binding.displayImage2);
 
-                    Glide.with(getActivity()).load(user.getDisplayImage3())
-                            .apply(requestOptions)
-                            .into(binding.displayImage3);
+                        Glide.with(getActivity()).load(user.getDisplayImage3())
+                                .apply(requestOptions)
+                                .into(binding.displayImage3);
 
-                    binding.about.setText(user.getAbout());
-                    binding.age.setText(String.valueOf(user.getAge()));
-                    binding.name.setText(user.getName().trim() + ",");
+                        binding.about.setText(user.getAbout());
+                        binding.age.setText(String.valueOf(user.getAge()));
+                        binding.name.setText(user.getName().trim() + ",");
 
-                    if (user.getIsOnline().equals("yes")) {
-                        binding.online.setChecked(true);
-                        binding.online.setText("I'm online");
-                    } else {
-                        binding.online.setChecked(false);
-                        binding.online.setText("I'm offline");
-                    }
+                        if (user.getIsOnline().equals("yes")) {
+                            binding.online.setChecked(true);
+                            binding.online.setText("I'm online");
+                        } else {
+                            binding.online.setChecked(false);
+                            binding.online.setText("I'm offline");
+                        }
 
 //
 //                    Handler handler = new Handler();
@@ -291,14 +306,17 @@ public class ProfileFragment extends Fragment {
 //                    }
 //                }, 3000);
 
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            getUserAddressFromLonAndLat(user.getLongitude(), user.getLatitude());
-                        }
-                    });
-                    thread.start();
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getUserAddressFromLonAndLat(user.getLongitude(), user.getLatitude());
+                            }
+                        });
+                        thread.start();
 
+                    } catch (Exception e) {
+
+                    }
                 }
             }
         });
@@ -317,6 +335,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent, activityOptionsCompat.toBundle());
             }
         });
+
 
         binding.displayImage1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -363,12 +382,37 @@ public class ProfileFragment extends Fragment {
                             intent.putExtra("age", age);
                             intent.putExtra("about", about);
                             intent.putExtra("dis1", dis1Url);
-                            intent.putExtra("gender",gender);
-                            intent.putExtra("location",binding.location.getText().toString());
+                            intent.putExtra("gender", gender);
+                            intent.putExtra("location", binding.location.getText().toString());
                             intent.putExtra("dis2", dis2Url);
                             intent.putExtra("dis3", dis3Url);
                             intent.putExtra("profileImageUrl", profilePictureUrl);
                             startActivity(intent);
+
+                        }
+
+                        if (item.getItemId() == R.id.out) {
+
+                            AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                                    .setTitle("Confirm logout")
+                                    .setMessage("Are you show you want to logout")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                            firebaseAuth.signOut();
+                                            startActivity(new Intent(getContext(), SplashActivity.class));
+                                            getActivity().finish();
+
+                                        }
+                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
 
                         }
 
@@ -424,16 +468,88 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-//        viewModel.booleanLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean aBoolean) {
-//                if (aBoolean) {
-//                    progressDialog.show();
-//                } else {
-//                    progressDialog.dismiss();
-//                }
-//            }
-//        });
+        viewModel.booleanLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    progressDialog.show();
+                } else {
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
+        dialogUpload = new Dialog(getContext());
+        dialogUpload.setCancelable(false);
+        dialogUpload.setContentView(R.layout.change_pro_pic_layout);
+
+        uploadImageView = dialogUpload.findViewById(R.id.pro_pic_me);
+        TextView upload = dialogUpload.findViewById(R.id.upload);
+        TextView cancel = dialogUpload.findViewById(R.id.cancel);
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                viewModel.uploadImageUri(profileUri);
+                progressDialog.show();
+                dialogUpload.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogUpload.dismiss();
+            }
+        });
+
+        binding.changeProPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED &&
+                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            12);
+                } else {
+
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, galleryProfile);
+                }
+
+            }
+        });
+
+        binding.e.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED &&
+                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            12);
+                } else {
+
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, galleryProfile);
+                }
+
+            }
+        });
+
+
         return binding.getRoot();
     }
 
@@ -488,26 +604,35 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 9 && resultCode == RESULT_OK) {
-            viewModel.uploadImageUri(data.getData());
-            progressDialog.show();
-        }
+//        if (requestCode == 9 && resultCode == RESULT_OK) {
+//            viewModel.uploadImageUri(data.getData());
+//            progressDialog.show();
+//        }
+//
+//        if (requestCode == 10 && resultCode == RESULT_OK) {
+//            Bundle bundle = data.getExtras();
+//            Bitmap bitmap = (Bitmap) bundle.get("data");
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//
+//            byte[] bytes = byteArrayOutputStream.toByteArray();
+//            viewModel.uploadImageByte(bytes);
+//            progressDialog.show();
+//        }
 
-        if (requestCode == 10 && resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            Bitmap bitmap = (Bitmap) bundle.get("data");
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        if (requestCode == galleryProfile && resultCode == RESULT_OK) {
 
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            viewModel.uploadImageByte(bytes);
-            progressDialog.show();
+            profileUri = data.getData();
+            uploadImageView.setImageURI(profileUri);
+            dialogUpload.show();
+
         }
 
     }
 
     @Override
-    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View
+            v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         getActivity().getMenuInflater().inflate(R.menu.profile_menu, menu);

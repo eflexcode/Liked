@@ -4,4 +4,7 @@
     <item android:id="@+id/edit"
         android:title="Edit Profile"/>
 
+    <item android:id="@+id/out"
+        android:title="Logout"/>
+
 </menu>

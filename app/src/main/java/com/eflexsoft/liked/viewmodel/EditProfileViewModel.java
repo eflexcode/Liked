@@ -1,6 +1,7 @@
 package com.eflexsoft.liked.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -24,9 +25,10 @@ public class EditProfileViewModel extends AndroidViewModel {
 
     }
 
-    public void updateProfile(final String names, final String Address, final String gender, final String age, final String about) {
+    public void updateProfile(final String names, double lon, double lat, final String gender, final String age, final String about,
+                              Uri proPic, Uri dis1, Uri dis2, Uri dis3) {
 
-        repository.updateProfile(names, Address, gender, age, about);
+        repository.updateProfile(names, lon, lat, gender, age, about, proPic, dis1, dis2, dis3);
 
     }
 

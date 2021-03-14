@@ -232,7 +232,7 @@ public class CreateAccountRepository {
 
                                         for (Uri uri : displayImages) {
                                             StorageReference storageReference = firebaseStorage.getReference("displayImages/gallery");
-                                            StorageReference gallery = storageReference.child(System.currentTimeMillis() + getMineType(profileUrl));
+                                            StorageReference gallery = storageReference.child(System.currentTimeMillis() + getMineType(uri));
 
                                             UploadTask uploadTask = gallery.putFile(uri);
                                             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {

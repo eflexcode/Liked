@@ -14,6 +14,7 @@ import com.eflexsoft.liked.model.User;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +64,7 @@ public class ProfileRepository {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
+
     public void uploadImageByte(byte[] bytes) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = firebaseStorage.getReference("profileImages");
@@ -118,8 +120,10 @@ public class ProfileRepository {
         });
 
     }
+
     public void uploadImageUri(Uri uri) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         StorageReference storageReference = firebaseStorage.getReference("profileImages");
 
         StorageReference gallery = storageReference.child("galleryUpload" + System.currentTimeMillis() + getMineType(uri));
@@ -139,18 +143,17 @@ public class ProfileRepository {
                 if (task.isSuccessful()) {
 
                     String downloadUri = task.getResult().toString();
-                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    DocumentReference documentReference = FirebaseFirestore.getInstance()
+                            .collection("Users")
+                            .document(firebaseAuth.getUid());
 
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("profilePictureUrl", downloadUri);
 
-                    databaseReference.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    documentReference.update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                booleanMutableLiveData.setValue(false);
-                            }
+                        public void onSuccess(Void aVoid) {
+                            booleanMutableLiveData.setValue(false);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -172,12 +175,12 @@ public class ProfileRepository {
 
     }
 
-    public void setIsOnline(String status){
+    public void setIsOnline(String status) {
 //        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users")
 //                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //
-        Map<String,Object> map = new HashMap<>();
-        map.put("isOnline",status);
+        Map<String, Object> map = new HashMap<>();
+        map.put("isOnline", status);
 //
 //        databaseReference.updateChildren(map);
 
@@ -191,4 +194,4 @@ public class ProfileRepository {
     }
 
 
- }
+}

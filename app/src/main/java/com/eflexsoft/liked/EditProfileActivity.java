@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -81,6 +82,8 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
     LocationManager locationManager;
 
     String address = "";
+    double lon;
+    double lat;
 
     Handler handler = new Handler();
 
@@ -99,6 +102,8 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
     boolean dis2Set;
     boolean dis3Set;
 
+    String newGender;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +119,19 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.gender.setAdapter(arrayAdapter);
+
+        binding.gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                newGender = arrayAdapter.getItem(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -143,7 +161,7 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
                 .apply(requestOptions)
                 .into(binding.displayImage1);
 
-        Glide.with(this).load(dis3)
+        Glide.with(this).load(dis2)
                 .apply(requestOptions)
                 .into(binding.displayImage2);
 
@@ -237,6 +255,9 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
                                 @Override
                                 public void onSuccess(Location location) {
 
+                                    lon = location.getLongitude();
+                                    lat = location.getLatitude();
+
                                     Thread thread = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -265,10 +286,10 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
 
         });
 
-//        progressDialog = new ProgressDialog(this);
-//        progressDialog.setMessage("updating profile...");
-//        progressDialog.setCancelable(false);
-////
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Saving...");
+        progressDialog.setCancelable(false);
+//
 //        viewModel.isFailureLiveData().observe(this, new Observer<Boolean>() {
 //            @Override
 //            public void onChanged(Boolean aBoolean) {
@@ -277,18 +298,18 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
 //                }
 //            }
 //        });
-//        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.success_sound);
-//        viewModel.isSuccessLiveData().observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean aBoolean) {
-//                if (aBoolean){
-//                    mediaPlayer.start();
-//                    progressDialog.dismiss();
-//                    finish();
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.success_sound);
+        viewModel.isSuccessLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    mediaPlayer.start();
+                    progressDialog.dismiss();
+                    finish();
 //                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-//                }
-//            }
-//        });
+                }
+            }
+        });
 
     }
 
@@ -351,52 +372,6 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
         alertDialog.show();
     }
 
-//    public void saveUpdate(View view) {
-//
-//        String getAddress = address.getText().toString();
-//        String getGender = gender.getText().toString();
-//        String getAge = age.getText().toString();
-//        String getAboutMe = aboutMe.getText().toString();
-//        String Names = name.getText().toString();
-//
-//        if (Names.trim().isEmpty()) {
-//            name.setError("missing");
-//            return;
-//        }
-//
-//
-//        if (getAddress.trim().isEmpty()) {
-//            address.setError("missing");
-//            return;
-//        }
-//
-//        if (getGender.trim().isEmpty()) {
-//            gender.setError("missing");
-//            return;
-//        }
-//
-//        if (getAge.trim().isEmpty()) {
-//            age.setError("missing");
-//            return;
-//        }
-//
-//        int ageNum = Integer.parseInt(getAge);
-//        if (ageNum <18){
-//            age.setError("age cannot be below 18");
-//            return;
-//        }
-//
-//        if (getAboutMe.trim().isEmpty()) {
-//            aboutMe.setError("missing");
-//            return;
-//        }
-//
-//        viewModel.updateProfile(Names,getAddress,getGender,getAge,getAboutMe);
-//        progressDialog.show();
-//
-//    }
-
-
     private void getUserAddressFromLonAndLat(double longitude, double latitude) {
 
 
@@ -444,6 +419,27 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
     }
 
     public void doSaveProfile(View view) {
+
+        String name = binding.name.getText().toString();
+        String about = binding.about.getText().toString();
+        String age = binding.age.getText().toString();
+        String location = binding.location.getText().toString();
+
+        if (name.trim().isEmpty() || about.trim().isEmpty() || location.trim().isEmpty() || newGender.equals("Select your gender")) {
+            Toast.makeText(this, "Unable to save. some field may be missing", Toast.LENGTH_SHORT).show();
+        } else {
+
+//            if ()
+//
+//            doTextUpdate(name,about,age);
+//            doImageUpdate();
+
+//            if (lon == 0 && lat == 0) {
+            viewModel.updateProfile(name, lon, lat, newGender, age, about, profileUri, dis1Uri, dis2Uri, dis3Uri);
+
+            progressDialog.show();
+
+        }
 
 
     }
@@ -522,6 +518,7 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
             startActivityForResult(intent, galleryDis3);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
