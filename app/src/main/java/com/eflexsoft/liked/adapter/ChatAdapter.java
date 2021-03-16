@@ -110,11 +110,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
             if (position == list.size() - 1 && chat.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
 
-                if (chat.getIsSeen()) {
-                    holder.sent.setText("seen");
-                } else {
-                    holder.sent.setText("sent");
-                }
+//                if (chat.getIsSeen()) {
+//                    holder.sent.setText("seen");
+//                } else {
+//                    holder.sent.setText("sent");
+//                }
 
                 holder.sent.setVisibility(View.VISIBLE);
             } else {

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +48,12 @@ import com.like.OnLikeListener;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -289,12 +293,19 @@ public class FindLoveAdapter extends RecyclerView.Adapter<FindLoveUserViewHolder
 
                     String chatId = String.valueOf(i);
 
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
+
+                  String time = dateFormat.format(Calendar.getInstance().getTime());
+
                     Map<String, Object> messageMap = new HashMap<>();
                     messageMap.put("firstId", myId);
                     messageMap.put("secondId", otherUserId);
+                    messageMap.put("firstIdSeen",false);
+                    messageMap.put("secondIdSeen",false);
                     messageMap.put("message", love.get(new Random().nextInt(14)));
                     messageMap.put("imageUrl", "no image");
                     messageMap.put("videoUrl", "no video");
+                    messageMap.put("date",time);
                     messageMap.put("chatId", i);
 
                     message.document(chatId).set(messageMap);

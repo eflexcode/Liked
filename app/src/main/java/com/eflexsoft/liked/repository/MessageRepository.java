@@ -7,9 +7,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.eflexsoft.liked.model.Chat;
+import com.eflexsoft.liked.model.Like;
 import com.eflexsoft.liked.model.User;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,8 +22,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -36,12 +45,12 @@ import java.util.Map;
 public class MessageRepository {
 
     Context context;
-    public MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
-    public MutableLiveData<List<Chat>> chatMutableLiveData = new MutableLiveData<>();
-    List<Chat> chatList = new ArrayList<>();
-    List<Chat> newChatList = new ArrayList<>();
+//    public MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<Like>> likeMutableLiveData = new MutableLiveData<>();
+//    List<Chat> chatList = new ArrayList<>();
+//    List<Chat> newChatList = new ArrayList<>();
 
-    public int newLoadSize = 100;
+    List<Like> likes = new ArrayList<>();
 
     public MessageRepository(Context context) {
         this.context = context;
@@ -396,6 +405,27 @@ public class MessageRepository {
 //    }
 
     public void getFirstLikes() {
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String myId = firebaseAuth.getUid();
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+        Query myReference = firebaseFirestore.collection("Users")
+                .document(myId).collection("Likes").orderBy("messageId", Query.Direction.DESCENDING).limit(20);
+
+        myReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                for (DocumentSnapshot documentSnapshot : value.getDocuments()) {
+                    Like like = documentSnapshot.toObject(Like.class);
+                    likes.add(like);
+
+                }
+                likeMutableLiveData.setValue(likes);
+            }
+        });
 
     }
 

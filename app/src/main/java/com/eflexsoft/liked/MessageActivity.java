@@ -143,11 +143,11 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            viewModel.getChat(chatId, id);
-        } catch (NullPointerException e) {
-            Toast.makeText(this, "no chat history found", Toast.LENGTH_SHORT).show();
-        }
+//        try {
+//            viewModel.getChat(chatId, id);
+//        } catch (NullPointerException e) {
+//            Toast.makeText(this, "no chat history found", Toast.LENGTH_SHORT).show();
+//        }
 
         Button camera;
         Button gallery;
@@ -180,54 +180,54 @@ public class MessageActivity extends AppCompatActivity {
 
         binding.chatRecycler.setItemAnimator(new DefaultItemAnimator());
         binding.swipe.setColorSchemeResources(R.color.colorPrimary);
-        viewModel.doSendId(id);
-        viewModel.observeUserDetails().observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
+//        viewModel.doSendId(id);
+//        viewModel.observeUserDetails().observe(this, new Observer<User>() {
+//            @Override
+//            public void onChanged(User user) {
+//
+//                binding.nameChat.setText(user.getName());
+//
+//                Glide.with(MessageActivity.this).load(user.getProfilePictureUrl())
+//                        .apply(requestOptions).into(binding.proPicMessage);
+//
+//                imageUrl = user.getProfilePictureUrl();
+//
+//                try {
+//                    if (user.getIsOnline().equals("yes")) {
+//                        binding.idOnline.setImageResource(R.color.on_line);
+//                    } else {
+//                        binding.idOnline.setImageResource(R.color.off_line);
+//                    }
+//                } catch (NullPointerException e) {
+//
+//                }
+//
+//            }
+//        });
 
-                binding.nameChat.setText(user.getName());
-
-                Glide.with(MessageActivity.this).load(user.getProfilePictureUrl())
-                        .apply(requestOptions).into(binding.proPicMessage);
-
-                imageUrl = user.getProfilePictureUrl();
-
-                try {
-                    if (user.getIsOnline().equals("yes")) {
-                        binding.idOnline.setImageResource(R.color.on_line);
-                    } else {
-                        binding.idOnline.setImageResource(R.color.off_line);
-                    }
-                } catch (NullPointerException e) {
-
-                }
-
-            }
-        });
-
-        binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                try {
-                    viewModel.getChatMore(chatId, id);
-                    binding.swipe.setRefreshing(false);
-                } catch (NullPointerException e) {
-                    Toast.makeText(MessageActivity.this, "no chat history found", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
-
-        viewModel.observeGetChats().observe(this, new Observer<List<Chat>>() {
-            @Override
-            public void onChanged(List<Chat> chats) {
-
-                chatAdapter.setChats(chats);
-                binding.chatRecycler.scrollToPosition(chats.size() - 1);
-            }
-        });
-
-        viewModel.updateIsSeen(chatId);
+//        binding.swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                try {
+//                    viewModel.getChatMore(chatId, id);
+//                    binding.swipe.setRefreshing(false);
+//                } catch (NullPointerException e) {
+//                    Toast.makeText(MessageActivity.this, "no chat history found", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            }
+//        });
+//
+//        viewModel.observeGetChats().observe(this, new Observer<List<Chat>>() {
+//            @Override
+//            public void onChanged(List<Chat> chats) {
+//
+//                chatAdapter.setChats(chats);
+//                binding.chatRecycler.scrollToPosition(chats.size() - 1);
+//            }
+//        });
+//
+//        viewModel.updateIsSeen(chatId);
 
     }
 
@@ -243,10 +243,10 @@ public class MessageActivity extends AppCompatActivity {
 
         String message = binding.messageText.getText().toString();
 
-        if (!message.trim().isEmpty()) {
-            viewModel.sendMessage(id, FirebaseAuth.getInstance().getUid(), message, chatId);
-            binding.messageText.setText("");
-        }
+//        if (!message.trim().isEmpty()) {
+//            viewModel.sendMessage(id, FirebaseAuth.getInstance().getUid(), message, chatId);
+//            binding.messageText.setText("");
+//        }
 
     }
 
@@ -256,7 +256,7 @@ public class MessageActivity extends AppCompatActivity {
 
         if (requestCode == 9 && resultCode == RESULT_OK && data.getData() != null) {
             isCamera = false;
-            viewModel.sendImageGallery(id, FirebaseAuth.getInstance().getUid(), data.getData(), chatId);
+//            viewModel.sendImageGallery(id, FirebaseAuth.getInstance().getUid(), data.getData(), chatId);
             Toast.makeText(this, "sending", Toast.LENGTH_SHORT).show();
         }
 
@@ -272,7 +272,7 @@ public class MessageActivity extends AppCompatActivity {
 
             byte[] bytes = byteArrayOutputStream.toByteArray();
 
-            viewModel.sendImageCamera(id, FirebaseAuth.getInstance().getUid(), bytes, chatId);
+//            viewModel.sendImageCamera(id, FirebaseAuth.getInstance().getUid(), bytes, chatId);
             Toast.makeText(this, "sending", Toast.LENGTH_SHORT).show();
             isCamera = true;
 

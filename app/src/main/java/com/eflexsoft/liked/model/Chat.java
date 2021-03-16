@@ -6,18 +6,20 @@ public class Chat {
     private String receiverId;
     private String message;
     private String date;
-    private boolean isSeen;
+    private boolean firstIdSeen;
+    private boolean secondIdSeen;
     private String imageUrl;
 
     public Chat() {
     }
 
-    public Chat(String senderId, String receiverId, String message, String date, String imageUrl, boolean isSeen) {
+    public Chat(String senderId, String receiverId, String message, String date, String imageUrl, boolean firstIdSeen, boolean secondIdSeen) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.message = message;
         this.date = date;
-        this.isSeen = isSeen;
+        this.firstIdSeen = firstIdSeen;
+        this.secondIdSeen = secondIdSeen;
         this.imageUrl = imageUrl;
     }
 
@@ -49,12 +51,20 @@ public class Chat {
         return date;
     }
 
-    public boolean getIsSeen() {
-        return isSeen;
+    public boolean isFirstIdSeen() {
+        return firstIdSeen;
     }
 
-    public void setIsSeen(boolean isSeen) {
-        this.isSeen = isSeen;
+    public void setFirstIdSeen(boolean firstIdSeen) {
+        this.firstIdSeen = firstIdSeen;
+    }
+
+    public boolean isSecondIdSeen() {
+        return secondIdSeen;
+    }
+
+    public void setSecondIdSeen(boolean secondIdSeen) {
+        this.secondIdSeen = secondIdSeen;
     }
 
     public void setDate(String date) {

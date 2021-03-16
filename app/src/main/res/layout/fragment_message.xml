@@ -45,7 +45,6 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/message_recycler"
             android:layout_width="match_parent"
