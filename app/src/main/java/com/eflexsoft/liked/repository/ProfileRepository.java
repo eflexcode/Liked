@@ -52,8 +52,13 @@ public class ProfileRepository {
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                User user = value.toObject(User.class);
-                userMutableLiveData.setValue(user);
+                try {
+                    User user = value.toObject(User.class);
+                    userMutableLiveData.setValue(user);
+                } catch (Exception e) {
+
+                }
+
             }
         });
 

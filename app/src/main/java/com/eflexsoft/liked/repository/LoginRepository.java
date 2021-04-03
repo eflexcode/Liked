@@ -123,10 +123,6 @@ public class LoginRepository {
     public void loginCredential(AuthCredential authCredential, int age, String gender, LoginActivity loginActivity) {
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-        DocumentReference documentReference = FirebaseFirestore.getInstance()
-                .collection("Users")
-                .document(firebaseAuth.getUid());
-
         viewModel = new ViewModelProvider(loginActivity).get(LoginViewModel.class);
 
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -135,6 +131,10 @@ public class LoginRepository {
                 if (task.isSuccessful()) {
 
                     boolean isUserNew = task.getResult().getAdditionalUserInfo().isNewUser();
+
+                    DocumentReference documentReference = FirebaseFirestore.getInstance()
+                            .collection("Users")
+                            .document(firebaseAuth.getUid());
 
                     if (isUserNew) {
 

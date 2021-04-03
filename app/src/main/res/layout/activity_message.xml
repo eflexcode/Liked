@@ -5,29 +5,53 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:id="@+id/roorView"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".MessageActivity">
+
+        <!--        <com.jgabrielfreitas.core.BlurImageView-->
+        <!--            android:id="@+id/cover"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            android:src="@drawable/project_image_4" />-->
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="#FFFFFF"
-            android:elevation="20sp"
+            android:background="#fff"
             android:gravity="start">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolb"
-                android:layout_gravity="start"
-                android:gravity="start"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize">
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="start"
+                android:background="#fff"
+                android:gravity="start">
 
                 <RelativeLayout
+                    android:id="@+id/tool"
                     android:layout_width="match_parent"
-                    android:gravity="start"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:gravity="start">
+
+                    <ImageButton
+                        android:id="@+id/back"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="finish"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/back" />
 
                     <!--                <ImageView-->
                     <!--                    android:id="@+id/back"-->
@@ -39,16 +63,24 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/pro_pic_message"
-                        android:layout_width="70dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="3dp" />
+                        android:layout_width="50dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="50dp"
+                        android:transitionName="v"
+                        android:layout_toEndOf="@id/back"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/no_p" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/id_online"
                         android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="-20dp"
+                        android:layout_height="15dp"
+                        android:layout_alignTop="@id/pro_pic_message"
+                        android:layout_alignBottom="@id/pro_pic_message"
+                        android:layout_marginStart="-5dp"
                         android:layout_toEndOf="@id/pro_pic_message"
+                        android:src="@color/on_line"
                         app:civ_border_color="#FFFFFF"
                         app:civ_border_width="3dp" />
 
@@ -56,12 +88,15 @@
                         android:id="@+id/name_chat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="5dp"
+                        android:layout_alignTop="@id/pro_pic_message"
+                        android:layout_alignBottom="@id/pro_pic_message"
+                        android:layout_marginStart="10dp"
                         android:layout_toEndOf="@id/id_online"
+                        android:gravity="start|center"
                         android:singleLine="true"
+                        android:text=""
                         android:textColor="#000"
-                        android:textSize="13sp"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
@@ -81,7 +116,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chat_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -90,46 +126,118 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_above="@id/send_re"
-            android:background="#E4E3E3" />
+            android:background="@color/grey" />
 
         <RelativeLayout
             android:id="@+id/send_re"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="5dp">
 
-            <ImageView
-                android:id="@+id/send_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_margin="5dp"
+            <!--            <ImageView-->
+            <!--                android:id="@+id/send_image"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignParentStart="true"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:onClick="showPickImage"-->
+            <!--                android:src="@drawable/ic_image_24" />-->
+
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/send_message"-->
+            <!--                android:layout_width="40dp"-->
+            <!--                android:layout_height="30dp"-->
+            <!--                android:layout_alignParentEnd="true"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:onClick="sendMessage"-->
+            <!--                android:src="@drawable/send_no" />-->
+
+            <ImageButton
+                android:id="@+id/send_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:onClick="sendMessage"
+                android:padding="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_direct" />
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/hash_message"-->
+            <!--                android:layout_width="25dp"-->
+            <!--                android:layout_height="25dp"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:layout_marginEnd="10dp"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:layout_toStartOf="@id/send_message"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:scaleType="centerInside"-->
+            <!--                android:src="@drawable/ic_hashtag__1_" />-->
+
+
+            <ImageButton
+                android:id="@+id/gallery_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"
                 android:onClick="showPickImage"
-                android:src="@drawable/ic_image_24" />
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@id/send_message"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_gallery__1_" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+            <com.vanniktech.emoji.EmojiEditText
                 android:id="@+id/message_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/send_message"
-                android:layout_toEndOf="@id/send_image"
+                android:layout_toStartOf="@id/gallery_message"
+                android:layout_toEndOf="@id/emoji_message"
+                android:background="@android:color/transparent"
                 android:hint="Write a message"
+                android:imeOptions="actionSend"
+                android:layout_marginBottom="10dp"
+                android:inputType="textMultiLine|textCapSentences"
                 android:maxHeight="130dp"
-                android:textColor="#0000"
-                android:textColorHint="#000"
-                android:textSize="14sp" />
+                android:padding="4dp"
+                android:text=""
+                android:textColor="#000"
+                android:textColorHint="@color/grey"
+                android:textSize="16sp"
+                app:met_baseColor="@color/white"
+                app:met_primaryColor="@color/grey"
+                app:met_textColor="#e4a"
+                app:met_textColorHint="@color/grey" />
 
-            <ImageView
-                android:id="@+id/send_message"
-                android:layout_width="40dp"
+            <ImageButton
+                android:id="@+id/emoji_message"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="5dp"
-                android:onClick="sendMessage"
-                android:src="@drawable/send_no" />
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:onClick="openEmojiKeyboard"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_smile" />
 
         </RelativeLayout>
+
+
 
     </RelativeLayout>
 </layout>

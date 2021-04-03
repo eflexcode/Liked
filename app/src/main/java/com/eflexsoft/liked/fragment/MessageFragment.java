@@ -42,6 +42,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,18 +65,25 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_message, container, false);
-
+        EmojiManager.install(new GoogleEmojiProvider());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-//        linearLayoutManager.setStackFromEnd(true);
+        binding.messageRecycler.setLayoutManager(linearLayoutManager);
 
         viewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
         viewModel.observeGetChats().observe(getActivity(), new Observer<List<Like>>() {
             @Override
             public void onChanged(List<Like> likes) {
+
+                if (likes.size() <= 0){
+                    binding.noMessage.setVisibility(View.VISIBLE);
+                }else {
+                    binding.noMessage.setVisibility(View.GONE);
+                }
+
                 binding.messageLoading.setVisibility(View.GONE);
                 messageAdapter = new MessageAdapter(likes, getContext());
-                binding.messageRecycler.setLayoutManager(linearLayoutManager);
                 binding.messageRecycler.setAdapter(messageAdapter);
+
             }
         });
 
@@ -246,7 +255,6 @@ public class MessageFragment extends Fragment {
 //
 //
 //        }
-
         return binding.getRoot();
 
     }

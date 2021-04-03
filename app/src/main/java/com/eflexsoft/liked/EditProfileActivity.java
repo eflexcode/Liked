@@ -55,6 +55,7 @@ import java.util.Locale;
 public class EditProfileActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     AlertDialog alertDialog;
+    AlertDialog alertDialog2;
 
     String name;
     int age;
@@ -239,45 +240,52 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    if (ActivityCompat.checkSelfPermission(EditProfileActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(EditProfileActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
 
-                        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-                                || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    try {
+                        if (ActivityCompat.checkSelfPermission(EditProfileActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(EditProfileActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
 
-                            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
 
-                                    lon = location.getLongitude();
-                                    lat = location.getLatitude();
+                            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                                    || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
-                                    Thread thread = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            getUserAddressFromLonAndLat(location.getLongitude(), location.getLatitude());
-                                        }
-                                    });
-                                    thread.start();
+                                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location location) {
 
-                                }
-                            });
+                                        lon = location.getLongitude();
+                                        lat = location.getLatitude();
+
+                                        Thread thread = new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                getUserAddressFromLonAndLat(location.getLongitude(), location.getLatitude());
+                                            }
+                                        });
+                                        thread.start();
+
+                                    }
+                                });
+                            } else {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(intent);
+                            }
+
+
                         } else {
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivity(intent);
+                            ActivityCompat.requestPermissions(EditProfileActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 89);
+
                         }
-
-
-                    } else {
-                        ActivityCompat.requestPermissions(EditProfileActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 89);
+                    } catch (Exception e) {
 
                     }
+
 
                 }
 
@@ -289,15 +297,6 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Saving...");
         progressDialog.setCancelable(false);
-//
-//        viewModel.isFailureLiveData().observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean aBoolean) {
-//                if (aBoolean){
-//                    progressDialog.dismiss();
-//                }
-//            }
-//        });
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.success_sound);
         viewModel.isSuccessLiveData().observe(this, new Observer<Boolean>() {
             @Override
@@ -547,6 +546,20 @@ public class EditProfileActivity extends AppCompatActivity implements DatePicker
                 dis3Set = true;
 
             }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("Info")
+                    .setMessage("If the image does not appear in preview don't worry it has been saved")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            alertDialog2 = builder.create();
+            alertDialog.show();
+
 
         }
 

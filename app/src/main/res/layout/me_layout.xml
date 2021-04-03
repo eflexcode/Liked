@@ -1,78 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:layout_gravity="end"
-    android:gravity="end"
-    android:padding="2dp">
+<layout>
 
-    <RelativeLayout
-        android:layout_width="300dp"
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_gravity="end"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="7dp"
         android:gravity="end"
-        android:padding="2dp">
+        android:maxWidth="300dp">
+
+        <!--    <TextView-->
+        <!--        android:id="@+id/date"-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginTop="10dp"-->
+        <!--        android:layout_marginBottom="10dp"-->
+        <!--        android:alpha="0.5"-->
+        <!--        android:layout_centerHorizontal="true"-->
+        <!--        android:padding="7dp"-->
+        <!--        android:text="Dec,12,2020"-->
+        <!--        android:textColor="@color/grey" />-->
 
         <TextView
-            android:id="@+id/sentDate"
+            android:id="@+id/sentDateAgo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="2dp"
-            android:padding="5dp"
+            android:layout_below="@id/message_text_chat"
+            android:layout_alignEnd="@id/message_text_chat"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="10dp"
             android:text="Dec 30 20202"
-            android:textColor="@color/off_line"
+            android:textColor="@color/grey"
             android:textSize="10sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
-        <TextView
+        <com.vanniktech.emoji.EmojiTextView
             android:id="@+id/message_text_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sentDate"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="2dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/me_chat"
-            android:padding="13dp"
+            android:maxWidth="300dp"
+            android:padding="9dp"
             android:text="As we all know that RecyclerView is a UI component to show lists in Android. In this tutorial, you will learn, How to create a RecyclerView with Multiple View Types in Java Android. It’s is a chat App example. In this example, 2 types of views (text message in and out) are considered. "
-            android:textColor="#ffffff"
+            android:textColor="#FFFFFF"
             android:textIsSelectable="true"
-            android:textSize="17sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
 
 
         <!--    </RelativeLayout>-->
 
-        <TextView
+        <ImageView
             android:id="@+id/isSent"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/message_text_chat"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@id/sentDateAgo"
+
+            android:padding="3dp"
+            android:src="@drawable/ic_done"
+            android:textColor="#A5A5A5"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/img"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/me_chat"
+            android:padding="3dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="20dp">
+
+                <ImageView
+                    android:id="@+id/sentImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/me_chat"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ba"
+                    android:transitionName="v"
+                    android:visibility="visible" />
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/sentDateAgo2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/message_text_chat"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="1dp"
-            android:text="Seen"
-            android:textColor="#F9F4FB"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:layout_below="@id/img"
+            android:layout_alignEnd="@id/img"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Dec 30 20202"
+            android:textColor="@color/grey"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
 
         <ImageView
-            android:id="@+id/sentImage"
-            android:layout_width="350dp"
-            android:layout_height="300dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="3dp"
-            android:padding="10dp"
-            android:background="@drawable/me_chat"
-            android:src="@drawable/ba"
-            android:visibility="gone" />
-        <!--    -->
-    </RelativeLayout>
+            android:id="@+id/isSent2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/img"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@id/sentDateAgo2"
+            android:padding="3dp"
+            android:src="@drawable/ic_done"
+            android:textColor="#A5A5A5"
+            android:visibility="visible" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

@@ -7,6 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".fragment.MessageFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -49,13 +50,43 @@
             android:id="@+id/message_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/message_layout" />
+
+
+        <RelativeLayout
+            android:id="@+id/no_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:id="@+id/m"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_conversation_2_" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:layout_below="@id/m"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text="Users you've liked will show here"/>
+
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/message_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -115,7 +115,6 @@ public class ProfileFragment extends Fragment {
 
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
 
-
 //        editProfileFloatingActionButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -179,7 +178,6 @@ public class ProfileFragment extends Fragment {
 //                }
 //            }
 //        });
-
 
         viewModel.observeUserDetails().observe(getActivity(), new Observer<User>() {
             @Override

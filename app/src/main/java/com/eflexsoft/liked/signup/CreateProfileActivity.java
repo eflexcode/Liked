@@ -420,44 +420,57 @@ public class CreateProfileActivity extends AppCompatActivity {
 
     public void PublishProfile(View view) {
 
-        if (profileSet && dis3Set && dis2Set && dis1Set & aboutText) {
+        try {
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED ||
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
 
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 89);
-                return;
-            }
+            if (profileSet && dis3Set && dis2Set && dis1Set & aboutText) {
 
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-                Toast.makeText(this, "Please turn on your device location", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
 
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 89);
+                    return;
+                }
 
-                    List<Uri> uriList = new ArrayList<>();
-                    uriList.add(dis1Uri);
-                    uriList.add(dis2Uri);
-                    uriList.add(dis3Uri);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                    Toast.makeText(this, "Please turn on your device location", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                    viewModel.publishProfile(profileUri, binding.about.getText().toString(), uriList, location.getLongitude(), location.getLatitude());
-                    progressDialog.show();
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+
+                        List<Uri> uriList = new ArrayList<>();
+                        uriList.add(dis1Uri);
+                        uriList.add(dis2Uri);
+                        uriList.add(dis3Uri);
+
+                        viewModel.publishProfile(profileUri, binding.about.getText().toString(), uriList, location.getLongitude(), location.getLatitude());
+                        progressDialog.show();
 //                    Toast.makeText(CreateProfileActivity.this, location.getLatitude()+" "+location.getLatitude(), Toast.LENGTH_LONG).show();
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(CreateProfileActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CreateProfileActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        List<Uri> uriList = new ArrayList<>();
+                        uriList.add(dis1Uri);
+                        uriList.add(dis2Uri);
+                        uriList.add(dis3Uri);
 
+                        viewModel.publishProfile(profileUri, binding.about.getText().toString(), uriList, 0, 0);
+                        progressDialog.show();
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

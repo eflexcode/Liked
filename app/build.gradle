@@ -8,8 +8,8 @@ android {
         applicationId "com.eflexsoft.liked"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 4
-        versionName "1.8"
+        versionCode 8
+        versionName "2.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -118,4 +118,12 @@ dependencies {
 
     implementation 'com.github.AgnaldoNP:PreviewImageCollection:1.2'
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.4.Final'
+
+    implementation 'com.github.hani-momanii:SuperNova-Emoji:1.1'
+
+    implementation 'com.vanniktech:emoji-material:0.7.0'
+    implementation 'com.vanniktech:emoji-google:0.7.0'
+
+    //ads
+    implementation 'com.google.android.gms:play-services-ads:19.8.0'
 }

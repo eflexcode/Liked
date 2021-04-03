@@ -24,9 +24,11 @@ import com.bumptech.glide.request.target.Target;
 import com.eflexsoft.liked.adapter.UserItemImageSlideAdapter;
 import com.eflexsoft.liked.databinding.ActivityUserDetailBinding;
 import com.eflexsoft.liked.model.SlidePostImageItem;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -111,6 +113,33 @@ public class UserDetailActivity extends AppCompatActivity {
         } else {
             binding.online.setImageResource(R.color.off_line);
         }
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+        DocumentReference myReference = firebaseFirestore.collection("Users")
+                .document(FirebaseAuth.getInstance().getUid()).collection("Likes").document(id);
+
+        myReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+
+                    try {
+//                            userList.remove(model);
+//                            notifyItemRemoved(position);
+                        binding.starButton.setLiked(true);
+//                            notifyItemChanged(position);
+                    }catch (Exception e){
+
+                    }
+
+
+//                        viewHolder.itemView.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(R.drawable.no_p);

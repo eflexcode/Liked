@@ -20,6 +20,8 @@ public class MessageViewModel extends AndroidViewModel {
     MessageRepository repository;
     public MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
     public MutableLiveData<List<Like>> likeMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<Chat>> chatMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<Chat>> chatMoreMutableLiveData = new MutableLiveData<>();
 
     public MessageViewModel(@NonNull Application application) {
         super(application);
@@ -43,27 +45,44 @@ public class MessageViewModel extends AndroidViewModel {
 
     }
 
+    public LiveData<List<Chat>> observeGetMessage() {
+
+        chatMutableLiveData = repository.chatMutableLiveData;
+        return chatMutableLiveData;
+
+    }
+
+    public LiveData<List<Chat>> observeGetMoreMessage() {
+
+        chatMoreMutableLiveData = repository.chatMoreMutableLiveData;
+        return chatMoreMutableLiveData;
+
+    }
+
 //    public void doSendId(String id) {
 //        repository.getSearchedUserProfile(id);
 //    }
 //
-//    public void sendMessage(String receiver, String senderId, String message,String chatId) {
-//        repository.sendMessage(receiver, senderId, message,chatId);
-//    }
-//    public void sendImageCamera(String receiver, String senderId, byte[] bytes, String chatId) {
+
+    public void sendMessage(String firstId, String secondId, String message, String messageId) {
+        repository.sendMessage(firstId, secondId, message, messageId);
+    }
+
+    //    public void sendImageCamera(String receiver, String senderId, byte[] bytes, String chatId) {
 //        repository.sendImageCamera(receiver, senderId, bytes,chatId);
 //    }
 //
-//    public void sendImageGallery(String receiver, String senderId, Uri uri, String chatId) {
-//        repository.sendImageGallery(receiver, senderId, uri,chatId);
-//    }
-//    public void getChat(String chatId, String receiverId){
-//        repository.getChat(chatId,receiverId);
-//    }
-//
-//    public void getChatMore(String chatId, String receiverId) {
-//        repository.getChatMore(chatId,receiverId);
-//    }
+    public void sendImageGallery(Uri uri, String messageId, String firstId, String secondId) {
+        repository.sendImageGallery(uri, messageId, firstId, secondId);
+    }
+
+    public void getMessage(String messageId) {
+        repository.getMessage(messageId);
+    }
+
+    public void getMessageMore(String messageId) {
+        repository.getMessageMore(messageId);
+    }
 //    public void updateIsSeen(String chatId){
 //        repository.updateIsSeen(chatId);
 //    }

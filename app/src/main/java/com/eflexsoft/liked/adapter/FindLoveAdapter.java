@@ -108,8 +108,15 @@ public class FindLoveAdapter extends RecyclerView.Adapter<FindLoveUserViewHolder
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
 
-                        userList.remove(model);
-                        notifyItemRemoved(position);
+                        try {
+//                            userList.remove(model);
+//                            notifyItemRemoved(position);
+                            viewHolder.binding.starButton.setLiked(true);
+//                            notifyItemChanged(position);
+                        }catch (Exception e){
+
+                        }
+
 
 //                        viewHolder.itemView.setVisibility(View.GONE);
 
@@ -295,17 +302,17 @@ public class FindLoveAdapter extends RecyclerView.Adapter<FindLoveUserViewHolder
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
 
-                  String time = dateFormat.format(Calendar.getInstance().getTime());
+                    String time = dateFormat.format(Calendar.getInstance().getTime());
 
                     Map<String, Object> messageMap = new HashMap<>();
                     messageMap.put("firstId", myId);
                     messageMap.put("secondId", otherUserId);
-                    messageMap.put("firstIdSeen",false);
-                    messageMap.put("secondIdSeen",false);
+                    messageMap.put("firstIdSeen", false);
+                    messageMap.put("secondIdSeen", false);
                     messageMap.put("message", love.get(new Random().nextInt(14)));
                     messageMap.put("imageUrl", "no image");
                     messageMap.put("videoUrl", "no video");
-                    messageMap.put("date",time);
+                    messageMap.put("date", time);
                     messageMap.put("chatId", i);
 
                     message.document(chatId).set(messageMap);
@@ -316,8 +323,13 @@ public class FindLoveAdapter extends RecyclerView.Adapter<FindLoveUserViewHolder
                         @Override
                         public void run() {
 //                        viewHolder.itemView.setVisibility(View.GONE);
-                            userList.remove(model);
-                            notifyItemRemoved(position);
+                            try {
+//                                userList.remove(model);
+//                                notifyItemRemoved(position);
+                            }catch (Exception e){
+
+                            }
+
                         }
                     }, 5000);
 
@@ -373,7 +385,7 @@ public class FindLoveAdapter extends RecyclerView.Adapter<FindLoveUserViewHolder
                         User user = userList.get(userList.size() - 1);
 
                         Query query = firebaseFirestore.collection("Users")
-                                .whereEqualTo("gender", user.getGender()).orderBy("timeStamp", Query.Direction.DESCENDING).startAfter(user.getTimeStamp()).limit(20);
+                                .whereEqualTo("gender", user.getGender()).orderBy("timeStamp", Query.Direction.DESCENDING).startAfter(user.getTimeStamp()).limit(7);
 
                         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
